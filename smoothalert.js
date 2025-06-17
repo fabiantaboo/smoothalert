@@ -1044,12 +1044,85 @@ document.addEventListener('DOMContentLoaded', () => {
   
   // Enhanced API
   window.SmoothAlert = {
+    // New unified show method for the HTML demo
+    show: (options) => {
+      if (typeof options === 'string') {
+        return smoothAlertEngine.alert(options);
+      }
+      const { type = 'info', title, message, confirmText, onConfirm, customClass, autoClose } = options;
+      
+      return smoothAlertEngine.createModal({
+        message,
+        title: title || 'Alert',
+        type,
+        buttons: [{
+          label: confirmText || 'OK',
+          style: 'primary',
+          action: () => {
+            if (onConfirm) onConfirm();
+          }
+        }],
+        customClass,
+        autoClose: autoClose ? { duration: autoClose } : false
+      });
+    },
+    
+    // Enhanced confirm method for the HTML demo
+    confirm: (options) => {
+      if (typeof options === 'string') {
+        return smoothAlertEngine.confirm(options);
+      }
+      
+      const { title, message, confirmText, cancelText, onConfirm, onCancel } = options;
+      
+      return new Promise((resolve) => {
+        const modalId = smoothAlertEngine.createModal({
+          message,
+          title: title || 'Confirm',
+          type: 'warning',
+          buttons: [
+            {
+              label: confirmText || 'Yes',
+              style: 'primary',
+              action: () => {
+                smoothAlertEngine.closeModal(modalId);
+                if (onConfirm) onConfirm();
+                resolve(true);
+              }
+            },
+            {
+              label: cancelText || 'No',
+              style: 'secondary',
+              action: () => {
+                smoothAlertEngine.closeModal(modalId);
+                if (onCancel) onCancel();
+                resolve(false);
+              }
+            }
+          ]
+        });
+      });
+    },
+    
+    // Enhanced toast method for the HTML demo
+    toast: (options) => {
+      if (typeof options === 'string') {
+        return smoothAlertEngine.toast(options);
+      }
+      
+      const { type, message, duration, position } = options;
+      return smoothAlertEngine.createToast(message, {
+        type: type || 'info',
+        duration: duration || 3000,
+        position: position || 'top-right'
+      });
+    },
+    
+    // Original API methods
     alert: (message, options) => smoothAlertEngine.alert(message, options),
-    confirm: (message, options) => smoothAlertEngine.confirm(message, options),
     success: (message, options) => smoothAlertEngine.success(message, options),
     error: (message, options) => smoothAlertEngine.error(message, options),
     warning: (message, options) => smoothAlertEngine.warning(message, options),
-    toast: (message, options) => smoothAlertEngine.toast(message, options),
     closeAll: () => smoothAlertEngine.closeAll(),
     setTheme: (theme) => smoothAlertEngine.setTheme(theme)
   };
@@ -1060,11 +1133,6 @@ document.addEventListener('DOMContentLoaded', () => {
   // Enhanced toast function
   window.toast = (message, options) => smoothAlertEngine.toast(message, options);
 });
-
-// Create global instance for browser usage
-if (typeof window !== 'undefined') {
-  window.SmoothAlert = new SmoothAlertEngine();
-}
 
 // Export for Node.js/CommonJS (for testing)
 if (typeof module !== 'undefined' && module.exports) {
