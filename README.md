@@ -1,330 +1,195 @@
 # 🚀 SmoothAlert Pro 2.0
 
-> **The Ultimate JavaScript Library for Modern Alerts and Notifications**
+A beautiful, modern alert library with glassmorphism design and smooth animations. Pure JavaScript, no dependencies.
 
-[![Version](https://img.shields.io/badge/version-2.0.0-blue.svg)](https://github.com/smoothalert/smoothalert-pro)
-[![License](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE)
-[![TypeScript](https://img.shields.io/badge/TypeScript-Ready-blue.svg)](types/index.d.ts)
-[![Bundle Size](https://img.shields.io/badge/bundle-<50KB-brightgreen.svg)](dist/)
-[![Browser Support](https://img.shields.io/badge/browsers-95%2B-brightgreen.svg)](#browser-support)
-
-<div align="center">
-  <img src="https://images.unsplash.com/photo-1558655146-64bb54897cb8?w=800&h=400&fit=crop" alt="SmoothAlert Pro Banner" width="100%">
-</div>
+![SmoothAlert Pro](https://img.shields.io/badge/SmoothAlert-Pro%202.0-blue?style=for-the-badge)
+![JavaScript](https://img.shields.io/badge/JavaScript-ES6+-yellow?style=for-the-badge)
+![No Dependencies](https://img.shields.io/badge/Dependencies-None-green?style=for-the-badge)
 
 ## ✨ Features
 
-- 🎨 **Glassmorphism Design** - Modern UI with Backdrop-Filter Effects
-- 📱 **Mobile First** - Fully Responsive and Touch-optimized
-- 🌙 **Dark Mode** - Automatic Theme Detection
-- ⚡ **Performance-Optimized** - <50KB Bundle, 60 FPS Animations
-- 🎭 **TypeScript Support** - Complete Type Safety
-- ♿ **Accessibility** - WCAG 2.1 AA Compliant
-- 🎯 **Promise-based API** - Modern async/await Support
-- 🛠️ **Framework Agnostic** - Works with React, Vue, Angular & Vanilla JS
+- 🎨 **Glassmorphism Design** - Modern frosted glass effect
+- 🌈 **Multiple Alert Types** - Success, error, warning, info, and custom
+- 📱 **Fully Responsive** - Works perfectly on all devices
+- 🎭 **Smooth Animations** - Beautiful CSS transitions and transforms
+- 🌙 **Dark Mode Support** - Automatic theme detection
+- 🍞 **Toast Notifications** - Non-blocking notifications with progress bars
+- ⚡ **Lightweight** - Pure JavaScript, no dependencies
+- 🎯 **Easy to Use** - Simple API, quick setup
 
 ## 🚀 Quick Start
 
-### CDN Installation
+### 1. Include the Files
 
 ```html
-<script src="https://cdn.jsdelivr.net/npm/smoothalert-pro@2.0.0/dist/smoothalert.min.js"></script>
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Your App</title>
+</head>
+<body>
+    <!-- Your content -->
+    
+    <!-- Include SmoothAlert -->
+    <script src="smoothalert.js"></script>
+</body>
+</html>
 ```
 
-### NPM Installation
-
-```bash
-npm install smoothalert-pro
-```
+### 2. Basic Usage
 
 ```javascript
-import SmoothAlert from 'smoothalert-pro';
+// Simple alert
+SmoothAlert.show({
+    type: 'success',
+    title: 'Success!',
+    message: 'Your action was completed successfully.'
+});
 
-// Or ES5
-const SmoothAlert = require('smoothalert-pro');
-```
+// Toast notification
+SmoothAlert.toast({
+    type: 'info',
+    message: 'This is a toast notification!',
+    duration: 3000
+});
 
-## 💡 Basic Usage
-
-### Simple Alert
-
-```javascript
-// Basic Alert
-SmoothAlert.alert('Hello World!');
-
-// Success Alert
-SmoothAlert.success('Operation completed successfully! 🎉');
-
-// Error Alert  
-SmoothAlert.error('Something went wrong! ❌');
-
-// Warning Alert
-SmoothAlert.warning('Please be careful! ⚠️');
-```
-
-### Advanced Modal
-
-```javascript
-SmoothAlert.alert('Welcome to SmoothAlert Pro!', {
-  title: 'Premium Experience',
-  type: 'success',
-  imageUrl: 'https://example.com/avatar.jpg',
-  buttons: [
-    {
-      label: 'Get Started',
-      style: 'primary',
-      action: (modalId) => {
-        SmoothAlert.toast('Welcome aboard! 🚀', { type: 'success' });
-      }
+// Confirmation dialog
+SmoothAlert.confirm({
+    title: 'Are you sure?',
+    message: 'This action cannot be undone.',
+    onConfirm: () => {
+        console.log('User confirmed');
     },
-    {
-      label: 'Maybe Later',
-      style: 'secondary', 
-      action: 'close'
+    onCancel: () => {
+        console.log('User cancelled');
     }
-  ],
-  customStyles: {
-    modal: { borderRadius: '20px' },
-    title: { color: '#10b981' },
-    image: { borderRadius: '50%' }
-  }
 });
 ```
 
-### Toast Notifications
+## 📖 API Reference
 
-```javascript
-// Simple Toast
-SmoothAlert.toast('Quick notification! 💬');
+### SmoothAlert.show(options)
 
-// Advanced Toast
-SmoothAlert.toast('Custom toast with options!', {
-  type: 'info',
-  position: 'top-right',
-  duration: 5000,
-  showProgress: true,
-  showCloseButton: true
-});
-```
+Display a modal alert.
 
-### Confirmation Dialog
+**Options:**
+- `type` (string): 'success', 'error', 'warning', 'info', 'custom'
+- `title` (string): Alert title
+- `message` (string): Alert message
+- `confirmText` (string): Confirm button text (default: 'OK')
+- `onConfirm` (function): Callback when confirmed
+- `customClass` (string): Custom CSS class
+- `autoClose` (number): Auto-close after milliseconds
 
-```javascript
-// Promise-based Confirmation
-const confirmed = await SmoothAlert.confirm('Delete this item?', {
-  title: 'Are you sure?',
-  type: 'warning'
-});
+### SmoothAlert.toast(options)
 
-if (confirmed) {
-  SmoothAlert.toast('Item deleted! 🗑️', { type: 'success' });
-} else {
-  SmoothAlert.toast('Cancelled! ✋', { type: 'info' });
-}
-```
+Display a toast notification.
+
+**Options:**
+- `type` (string): 'success', 'error', 'warning', 'info'
+- `message` (string): Toast message
+- `duration` (number): Display duration in milliseconds (default: 3000)
+- `position` (string): 'top-right', 'top-left', 'bottom-right', 'bottom-left'
+
+### SmoothAlert.confirm(options)
+
+Display a confirmation dialog.
+
+**Options:**
+- `title` (string): Dialog title
+- `message` (string): Dialog message
+- `confirmText` (string): Confirm button text (default: 'Yes')
+- `cancelText` (string): Cancel button text (default: 'No')
+- `onConfirm` (function): Callback when confirmed
+- `onCancel` (function): Callback when cancelled
 
 ## 🎨 Customization
 
-### Theme System
+### Custom Themes
 
 ```javascript
-// Custom Theme Colors
-SmoothAlert.alert('Themed alert!', {
-  type: 'custom',
-  customStyles: {
-    modal: {
-      background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
-      border: '2px solid #fff'
-    },
-    title: {
-      color: '#fff',
-      textShadow: '0 2px 4px rgba(0,0,0,0.3)'
+// Custom alert with your own styling
+SmoothAlert.show({
+    type: 'custom',
+    title: 'Custom Alert',
+    message: 'This alert uses custom styling.',
+    customClass: 'my-custom-alert'
+});
+```
+
+```css
+.my-custom-alert {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+}
+```
+
+### Animation Customization
+
+The library uses CSS custom properties for easy theming:
+
+```css
+:root {
+    --sa-primary-color: #3b82f6;
+    --sa-success-color: #10b981;
+    --sa-error-color: #ef4444;
+    --sa-warning-color: #f59e0b;
+    --sa-info-color: #06b6d4;
+    --sa-animation-duration: 0.3s;
+    --sa-border-radius: 12px;
+}
+```
+
+## 🌟 Examples
+
+### Success Alert
+```javascript
+SmoothAlert.show({
+    type: 'success',
+    title: 'Great!',
+    message: 'Your profile has been updated successfully.',
+    confirmText: 'Awesome!'
+});
+```
+
+### Error Alert with Callback
+```javascript
+SmoothAlert.show({
+    type: 'error',
+    title: 'Oops!',
+    message: 'Something went wrong. Please try again.',
+    onConfirm: () => {
+        // Retry logic here
+        location.reload();
     }
-  }
 });
 ```
 
-### Positioning
-
+### Auto-closing Toast
 ```javascript
-SmoothAlert.alert('Positioned alert!', {
-  position: 'top-right', // top-left, top-center, center, bottom-left, etc.
-  autoClose: true,
-  autoCloseDuration: 3000
+SmoothAlert.toast({
+    type: 'info',
+    message: 'File uploaded successfully!',
+    duration: 2000,
+    position: 'top-right'
 });
 ```
 
-### Animation Types
+## 🔧 Browser Support
 
-```javascript
-SmoothAlert.alert('Animated alert!', {
-  animationType: 'bounce', // fade, slide, bounce, zoom
-  enableAnimation: true
-});
-```
-
-## 📱 Toast Positions
-
-```javascript
-// All available positions
-const positions = [
-  'top-left', 'top-center', 'top-right',
-  'bottom-left', 'bottom-center', 'bottom-right'
-];
-
-positions.forEach((position, index) => {
-  setTimeout(() => {
-    SmoothAlert.toast(`Toast at ${position}!`, {
-      type: ['info', 'success', 'warning', 'error'][index % 4],
-      position: position
-    });
-  }, index * 500);
-});
-```
-
-## 🔧 Configuration Options
-
-### Modal Options
-
-| Option | Type | Default | Description |
-|--------|------|---------|-------------|
-| `title` | string | `''` | Modal title |
-| `message` | string | `''` | Modal message content |
-| `type` | string | `'info'` | Alert type: info, success, warning, error |
-| `imageUrl` | string | `null` | Image URL to display |
-| `buttons` | array | `[{label: 'OK'}]` | Button configuration |
-| `showCloseButton` | boolean | `true` | Show X close button |
-| `autoClose` | boolean | `false` | Auto-close after duration |
-| `autoCloseDuration` | number | `5000` | Auto-close delay in ms |
-| `backdropClose` | boolean | `true` | Close on backdrop click |
-| `position` | string | `'center'` | Modal position |
-| `customStyles` | object | `{}` | Custom CSS styles |
-
-### Toast Options
-
-| Option | Type | Default | Description |
-|--------|------|---------|-------------|
-| `type` | string | `'info'` | Toast type: info, success, warning, error |
-| `duration` | number | `5000` | Display duration in ms |
-| `position` | string | `'top-right'` | Toast position |
-| `showCloseButton` | boolean | `true` | Show close button |
-| `showProgress` | boolean | `true` | Show progress bar |
-| `customStyles` | object | `{}` | Custom CSS styles |
-
-## 🎯 API Reference
-
-### Static Methods
-
-```javascript
-// Alert Methods
-SmoothAlert.alert(message, options?)
-SmoothAlert.success(message, options?)
-SmoothAlert.error(message, options?)  
-SmoothAlert.warning(message, options?)
-SmoothAlert.confirm(message, options?) // Returns Promise<boolean>
-
-// Toast Methods
-SmoothAlert.toast(message, options?)
-
-// Utility Methods
-SmoothAlert.closeAll()
-SmoothAlert.setTheme(theme)
-```
-
-### Legacy Support
-
-```javascript
-// Backward compatible API
-smoothAlert({ message: 'Legacy support!' });
-closeSmoothAlert(modalId);
-toast('Legacy toast!');
-alert('Overridden native alert!');
-```
-
-## 🌐 Browser Support
-
-| Browser | Version |
-|---------|---------|
-| Chrome | 60+ |
-| Firefox | 55+ |
-| Safari | 12+ |
-| Edge | 79+ |
-| iOS Safari | 12+ |
-| Android Chrome | 60+ |
-
-## 📦 Bundle Information
-
-- **Minified Size**: ~45KB
-- **Gzipped Size**: ~12KB  
-- **Dependencies**: None (Vanilla JS)
-- **TypeScript**: Built-in definitions
-- **ES Modules**: ✅ Supported
-- **CommonJS**: ✅ Supported
-
-## 🤝 Contributing
-
-We welcome contributions! See [CONTRIBUTING.md](CONTRIBUTING.md) for guidelines.
-
-### Development Setup
-
-```bash
-# Clone repository
-git clone https://github.com/smoothalert/smoothalert-pro.git
-
-# Install dependencies
-npm install
-
-# Start development server
-npm run dev
-
-# Run tests
-npm test
-
-# Build for production
-npm run build
-```
-
-### Roadmap
-
-See [CHECKLIST.md](CHECKLIST.md) for the complete development roadmap.
+- Chrome 60+
+- Firefox 55+
+- Safari 12+
+- Edge 79+
 
 ## 📄 License
 
-MIT License - see [LICENSE](LICENSE) file.
+MIT License - feel free to use in personal and commercial projects.
 
-## 🙋‍♂️ Support
+## 🤝 Contributing
 
-- 📖 **Documentation**: [smoothalert.pro/docs](https://smoothalert.pro/docs)
-- 💬 **Community**: [GitHub Discussions](https://github.com/smoothalert/smoothalert-pro/discussions)
-- 🐛 **Bug Reports**: [GitHub Issues](https://github.com/smoothalert/smoothalert-pro/issues)
-- 📧 **Email**: support@smoothalert.pro
-
-## 🌟 Showcase
-
-### Successful Implementations
-
-- **Netflix** - User onboarding flows
-- **Spotify** - Playlist notifications  
-- **Airbnb** - Booking confirmations
-- **Uber** - Ride status updates
-- **Discord** - Chat notifications
-
-*Your project here? [Let us know!](mailto:showcase@smoothalert.pro)*
-
-## 🏆 Awards & Recognition
-
-- 🥇 **Product Hunt** - #1 Product of the Day
-- ⭐ **GitHub** - 10k+ Stars
-- 📦 **NPM** - 100k+ weekly downloads
-- 🏅 **CSS Design Awards** - Best Innovation
+Contributions are welcome! Please feel free to submit a Pull Request.
 
 ---
 
-<div align="center">
-  <p>Made with ❤️ by the SmoothAlert Pro Team</p>
-  <p>
-    <a href="https://github.com/smoothalert/smoothalert-pro">⭐ Star on GitHub</a> • 
-    <a href="https://twitter.com/smoothalertpro">🐦 Follow on Twitter</a> • 
-    <a href="https://smoothalert.pro">🌐 Official Website</a>
-  </p>
-</div> 
+Made with ❤️ by fabiantaboo 

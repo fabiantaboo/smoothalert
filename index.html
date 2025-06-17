@@ -1,0 +1,384 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SmoothAlert Pro 2.0 - Beautiful JavaScript Alerts</title>
+    
+    <!-- Include SmoothAlert -->
+    <script src="smoothalert.js"></script>
+    
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    
+    <style>
+        :root {
+            --primary: #6366f1;
+            --success: #10b981;
+            --warning: #f59e0b;
+            --error: #ef4444;
+            --info: #3b82f6;
+            --glass-bg: rgba(255, 255, 255, 0.1);
+            --glass-border: rgba(255, 255, 255, 0.2);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            color: white;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 4rem;
+        }
+
+        .title {
+            font-size: 3.5rem;
+            font-weight: 900;
+            margin-bottom: 1rem;
+            background: linear-gradient(135deg, #ffffff 0%, #e0e7ff 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .subtitle {
+            font-size: 1.25rem;
+            opacity: 0.8;
+            margin-bottom: 2rem;
+        }
+
+        .demo-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-bottom: 4rem;
+        }
+
+        .demo-card {
+            background: var(--glass-bg);
+            backdrop-filter: blur(20px);
+            border: 1px solid var(--glass-border);
+            border-radius: 20px;
+            padding: 2rem;
+            text-align: center;
+            transition: transform 0.3s ease;
+        }
+
+        .demo-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .demo-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+
+        .demo-title {
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+        }
+
+        .demo-description {
+            opacity: 0.8;
+            margin-bottom: 2rem;
+        }
+
+        .btn {
+            background: rgba(255, 255, 255, 0.2);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            color: white;
+            padding: 0.75rem 1.5rem;
+            border-radius: 50px;
+            cursor: pointer;
+            font-size: 1rem;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+
+        .btn:hover {
+            background: rgba(255, 255, 255, 0.3);
+            transform: translateY(-2px);
+        }
+
+        .btn-primary { background: var(--primary); border-color: var(--primary); }
+        .btn-success { background: var(--success); border-color: var(--success); }
+        .btn-warning { background: var(--warning); border-color: var(--warning); }
+        .btn-error { background: var(--error); border-color: var(--error); }
+        .btn-info { background: var(--info); border-color: var(--info); }
+
+        .code-section {
+            background: rgba(0, 0, 0, 0.2);
+            border-radius: 15px;
+            padding: 2rem;
+            margin: 2rem 0;
+        }
+
+        .code-title {
+            font-size: 1.25rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+        }
+
+        pre {
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 10px;
+            padding: 1.5rem;
+            overflow-x: auto;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.9rem;
+            line-height: 1.5;
+        }
+
+        .features {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin: 3rem 0;
+        }
+
+        .feature {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            background: rgba(255, 255, 255, 0.1);
+            padding: 1rem;
+            border-radius: 10px;
+        }
+
+        .feature-icon {
+            font-size: 1.5rem;
+            color: var(--primary);
+        }
+
+        @media (max-width: 768px) {
+            .title {
+                font-size: 2.5rem;
+            }
+            .demo-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1 class="title">SmoothAlert Pro 2.0</h1>
+            <p class="subtitle">Beautiful, modern alerts with glassmorphism design. Pure JavaScript, no dependencies.</p>
+        </div>
+
+        <div class="demo-grid">
+            <div class="demo-card">
+                <div class="demo-icon" style="color: var(--success);">
+                    <i class="fas fa-check-circle"></i>
+                </div>
+                <h3 class="demo-title">Success Alert</h3>
+                <p class="demo-description">Show positive feedback with beautiful success animations</p>
+                <button class="btn btn-success" onclick="showSuccess()">Try Success</button>
+            </div>
+
+            <div class="demo-card">
+                <div class="demo-icon" style="color: var(--error);">
+                    <i class="fas fa-exclamation-triangle"></i>
+                </div>
+                <h3 class="demo-title">Error Alert</h3>
+                <p class="demo-description">Display error messages with attention-grabbing styles</p>
+                <button class="btn btn-error" onclick="showError()">Try Error</button>
+            </div>
+
+            <div class="demo-card">
+                <div class="demo-icon" style="color: var(--warning);">
+                    <i class="fas fa-exclamation-circle"></i>
+                </div>
+                <h3 class="demo-title">Warning Alert</h3>
+                <p class="demo-description">Alert users with important warning messages</p>
+                <button class="btn btn-warning" onclick="showWarning()">Try Warning</button>
+            </div>
+
+            <div class="demo-card">
+                <div class="demo-icon" style="color: var(--info);">
+                    <i class="fas fa-info-circle"></i>
+                </div>
+                <h3 class="demo-title">Info Alert</h3>
+                <p class="demo-description">Share information with clean, modern styling</p>
+                <button class="btn btn-info" onclick="showInfo()">Try Info</button>
+            </div>
+
+            <div class="demo-card">
+                <div class="demo-icon" style="color: var(--primary);">
+                    <i class="fas fa-question-circle"></i>
+                </div>
+                <h3 class="demo-title">Confirmation</h3>
+                <p class="demo-description">Get user confirmation with elegant dialogs</p>
+                <button class="btn btn-primary" onclick="showConfirm()">Try Confirm</button>
+            </div>
+
+            <div class="demo-card">
+                <div class="demo-icon" style="color: #ff6b6b;">
+                    <i class="fas fa-bell"></i>
+                </div>
+                <h3 class="demo-title">Toast Notification</h3>
+                <p class="demo-description">Non-blocking notifications with progress bars</p>
+                <button class="btn" onclick="showToast()">Try Toast</button>
+            </div>
+        </div>
+
+        <div class="features">
+            <div class="feature">
+                <i class="fas fa-palette feature-icon"></i>
+                <div>
+                    <strong>Glassmorphism Design</strong><br>
+                    Modern frosted glass effects
+                </div>
+            </div>
+            <div class="feature">
+                <i class="fas fa-mobile-alt feature-icon"></i>
+                <div>
+                    <strong>Fully Responsive</strong><br>
+                    Perfect on all devices
+                </div>
+            </div>
+            <div class="feature">
+                <i class="fas fa-feather feature-icon"></i>
+                <div>
+                    <strong>Lightweight</strong><br>
+                    Pure JavaScript, no dependencies
+                </div>
+            </div>
+            <div class="feature">
+                <i class="fas fa-moon feature-icon"></i>
+                <div>
+                    <strong>Dark Mode</strong><br>
+                    Automatic theme detection
+                </div>
+            </div>
+        </div>
+
+        <div class="code-section">
+            <h3 class="code-title">Quick Start</h3>
+            <pre><code>// Include the script
+&lt;script src="smoothalert.js"&gt;&lt;/script&gt;
+
+// Show a simple alert
+SmoothAlert.show({
+    type: 'success',
+    title: 'Success!',
+    message: 'Your action was completed successfully.'
+});
+
+// Show a toast notification
+SmoothAlert.toast({
+    type: 'info',
+    message: 'This is a toast notification!',
+    duration: 3000
+});
+
+// Show confirmation dialog
+SmoothAlert.confirm({
+    title: 'Are you sure?',
+    message: 'This action cannot be undone.',
+    onConfirm: () => console.log('Confirmed'),
+    onCancel: () => console.log('Cancelled')
+});</code></pre>
+        </div>
+    </div>
+
+    <script>
+        function showSuccess() {
+            SmoothAlert.show({
+                type: 'success',
+                title: 'Great Job!',
+                message: 'Your action was completed successfully. Everything is working perfectly!',
+                confirmText: 'Awesome!'
+            });
+        }
+
+        function showError() {
+            SmoothAlert.show({
+                type: 'error',
+                title: 'Oops!',
+                message: 'Something went wrong. Please check your input and try again.',
+                confirmText: 'Got it'
+            });
+        }
+
+        function showWarning() {
+            SmoothAlert.show({
+                type: 'warning',
+                title: 'Warning!',
+                message: 'This action requires your attention. Please proceed carefully.',
+                confirmText: 'Understood'
+            });
+        }
+
+        function showInfo() {
+            SmoothAlert.show({
+                type: 'info',
+                title: 'Information',
+                message: 'Here is some useful information that you should know about.',
+                confirmText: 'Thanks!'
+            });
+        }
+
+        function showConfirm() {
+            SmoothAlert.confirm({
+                title: 'Delete Item?',
+                message: 'Are you sure you want to delete this item? This action cannot be undone.',
+                confirmText: 'Yes, Delete',
+                cancelText: 'Cancel',
+                onConfirm: () => {
+                    SmoothAlert.toast({
+                        type: 'success',
+                        message: 'Item deleted successfully!',
+                        duration: 2000
+                    });
+                },
+                onCancel: () => {
+                    SmoothAlert.toast({
+                        type: 'info',
+                        message: 'Action cancelled',
+                        duration: 2000
+                    });
+                }
+            });
+        }
+
+        function showToast() {
+            const types = ['success', 'info', 'warning', 'error'];
+            const messages = [
+                'Operation completed successfully!',
+                'New notification received',
+                'Please check your settings',
+                'Connection failed, retrying...'
+            ];
+            
+            const randomType = types[Math.floor(Math.random() * types.length)];
+            const randomMessage = messages[Math.floor(Math.random() * messages.length)];
+            
+            SmoothAlert.toast({
+                type: randomType,
+                message: randomMessage,
+                duration: 3000,
+                position: 'top-right'
+            });
+        }
+    </script>
+</body>
+</html> 
