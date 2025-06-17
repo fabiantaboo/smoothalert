@@ -1085,20 +1085,23 @@ class SmoothAlertEngine {
           .smoothalert-modal.image-modal {
             max-width: 90vw;
             max-height: 90vh;
-            padding: 0;
-            background: rgba(0, 0, 0, 0.9);
+            padding: 32px;
+            background: var(--sa-glass-bg);
+            backdrop-filter: blur(var(--sa-blur));
           }
 
           .smoothalert-image-large {
             width: 100%;
             max-width: 800px;
             height: auto;
-            border-radius: 20px;
+            border-radius: 12px;
             display: block;
+            margin: 0 auto;
           }
 
           .smoothalert-image-content {
-            padding: 24px;
+            padding: 16px 0 0 0;
+            text-align: center;
           }
 
           /* Sound Wave Animation */
@@ -1909,7 +1912,7 @@ class SmoothAlertEngine {
     await this.injectStyles();
     
     const defaults = {
-      title: '',
+      title: 'Image Viewer',
       description: ''
     };
 
@@ -1929,6 +1932,7 @@ class SmoothAlertEngine {
       type: 'info',
       className: 'image-modal',
       buttons: [{ label: 'Close', style: 'primary', action: 'close' }],
+      showCloseButton: true,
       ...options
     });
   }
@@ -2155,10 +2159,25 @@ class SmoothAlertEngine {
         break;
         
       case 'checkbox':
-        html += `<label class="form-checkbox-group">
-          <input type="checkbox" id="${fieldId}" name="${field.name}" class="form-checkbox" value="${field.value || '1'}" ${field.checked ? 'checked' : ''}>
-          <span>${field.text || field.label}</span>
-        </label>`;
+        if (field.options) {
+          // Multiple checkboxes with same name
+          html += '<div class="form-checkbox-group-container">';
+          field.options.forEach(option => {
+            const optionId = `${fieldId}-${option.value}`;
+            const checked = field.defaultValue && field.defaultValue.includes(option.value) ? 'checked' : '';
+            html += `<label class="form-checkbox-group">
+              <input type="checkbox" id="${optionId}" name="${field.name}" class="form-checkbox" value="${option.value}" ${checked}>
+              <span>${option.label}</span>
+            </label>`;
+          });
+          html += '</div>';
+        } else {
+          // Single checkbox
+          html += `<label class="form-checkbox-group">
+            <input type="checkbox" id="${fieldId}" name="${field.name}" class="form-checkbox" value="${field.value || '1'}" ${field.checked ? 'checked' : ''}>
+            <span>${field.text || field.label}</span>
+          </label>`;
+        }
         break;
         
       case 'radio':

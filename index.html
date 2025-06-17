@@ -659,34 +659,54 @@ SmoothAlert.form(formConfig, {
         }
 
         function showAdvancedForm() {
-            // Show a menu to choose form type
+            // Create a modal with multiple action buttons
+            const menuHTML = `
+                <div style="text-align: center; margin: 20px 0;">
+                    <p style="margin-bottom: 30px; color: rgba(255,255,255,0.9);">Select which type of form you want to see:</p>
+                    <div style="display: grid; gap: 15px;">
+                        <button class="btn" style="background: var(--primary); width: 100%; padding: 15px;" onclick="closeCurrentAndShow('registration')">
+                            👤 User Registration Form
+                        </button>
+                        <button class="btn" style="background: var(--success); width: 100%; padding: 15px;" onclick="closeCurrentAndShow('contact')">
+                            🏢 Contact Form
+                        </button>
+                        <button class="btn" style="background: var(--warning); width: 100%; padding: 15px;" onclick="closeCurrentAndShow('settings')">
+                            ⚙️ Settings Form
+                        </button>
+                        <button class="btn" style="background: var(--info); width: 100%; padding: 15px;" onclick="closeCurrentAndShow('survey')">
+                            📋 Survey Form
+                        </button>
+                    </div>
+                </div>
+            `;
+
             SmoothAlert.show({
                 type: 'info',
                 title: '📝 Choose Form Type',
-                message: 'Select which type of form you want to see:',
-                buttons: [
-                    {
-                        label: '👤 User Registration',
-                        style: 'primary',
-                        action: () => showUserRegistrationForm()
-                    },
-                    {
-                        label: '🏢 Contact Form',
-                        style: 'success',
-                        action: () => showContactForm()
-                    },
-                    {
-                        label: '⚙️ Settings Form',
-                        style: 'warning',
-                        action: () => showSettingsForm()
-                    },
-                    {
-                        label: '📋 Survey Form',
-                        style: 'info',
-                        action: () => showSurveyForm()
-                    }
-                ]
+                message: menuHTML,
+                confirmText: 'Cancel'
             });
+        }
+
+        function closeCurrentAndShow(formType) {
+            SmoothAlert.closeAll();
+            
+            setTimeout(() => {
+                switch(formType) {
+                    case 'registration':
+                        showUserRegistrationForm();
+                        break;
+                    case 'contact':
+                        showContactForm();
+                        break;
+                    case 'settings':
+                        showSettingsForm();
+                        break;
+                    case 'survey':
+                        showSurveyForm();
+                        break;
+                }
+            }, 100);
         }
 
         function showUserRegistrationForm() {
