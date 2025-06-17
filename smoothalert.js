@@ -1,7 +1,7 @@
 /**
  * SmoothAlert Pro v2.0 - Ultra Professional Alert & Notification Library
  * Modern, Lightweight, Performance-Optimized
- * Features: Glassmorphism, Dark Mode, Advanced Animations, TypeScript Ready
+ * Features: Glassmorphism, Dark Mode, Advanced Animations, Confetti Effects, Prompt Alerts
  * Author: SmoothAlert Team
  * License: MIT
  */
@@ -18,6 +18,7 @@ class SmoothAlertEngine {
     // Active instances tracking
     this.activeModals = new Set();
     this.activeToasts = new Map();
+    this.confettiParticles = [];
     
     // Performance monitoring
     this.performanceMetrics = {
@@ -33,7 +34,8 @@ class SmoothAlertEngine {
       reducedMotion: window.matchMedia('(prefers-reduced-motion: reduce)').matches,
       theme: 'modern',
       lazyStyleInjection: true,
-      enablePerformanceMonitoring: true
+      enablePerformanceMonitoring: true,
+      confettiEnabled: true
     };
     
     // Style injection status
@@ -492,6 +494,255 @@ class SmoothAlertEngine {
               transition: none !important;
               animation: none !important;
             }
+          }
+
+          /* Confetti Styles */
+          .smoothalert-confetti {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 1000001;
+            overflow: hidden;
+          }
+
+          .confetti-piece {
+            position: absolute;
+            width: 10px;
+            height: 10px;
+            background: #ff6b6b;
+            animation: confetti-fall 3s linear forwards;
+          }
+
+          .confetti-piece:nth-child(2n) { background: #4ecdc4; }
+          .confetti-piece:nth-child(3n) { background: #45b7d1; }
+          .confetti-piece:nth-child(4n) { background: #f9ca24; }
+          .confetti-piece:nth-child(5n) { background: #6c5ce7; }
+          .confetti-piece:nth-child(6n) { background: #a0e7e5; }
+
+          @keyframes confetti-fall {
+            0% {
+              transform: translateY(-100vh) rotate(0deg);
+              opacity: 1;
+            }
+            100% {
+              transform: translateY(100vh) rotate(720deg);
+              opacity: 0;
+            }
+          }
+
+          /* Prompt Input Styles */
+          .smoothalert-input {
+            width: 100%;
+            padding: 12px 16px;
+            margin: 16px 0 24px;
+            border: 2px solid rgba(255, 255, 255, 0.2);
+            border-radius: 12px;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(8px);
+            color: white;
+            font-size: 16px;
+            outline: none;
+            transition: all 0.3s ease;
+          }
+
+          .smoothalert-input::placeholder {
+            color: rgba(255, 255, 255, 0.6);
+          }
+
+          .smoothalert-input:focus {
+            border-color: var(--sa-primary);
+            background: rgba(255, 255, 255, 0.15);
+            box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.2);
+          }
+
+          .smoothalert-textarea {
+            resize: vertical;
+            min-height: 80px;
+            font-family: inherit;
+          }
+
+          /* Loading Spinner */
+          .smoothalert-spinner {
+            width: 40px;
+            height: 40px;
+            margin: 20px auto;
+            border: 3px solid rgba(255, 255, 255, 0.3);
+            border-top: 3px solid white;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+          }
+
+          @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+          }
+
+          /* Enhanced Modal Types */
+          .smoothalert-modal.celebration {
+            background: linear-gradient(135deg, 
+              rgba(255, 107, 107, 0.2) 0%, 
+              rgba(78, 205, 196, 0.2) 50%, 
+              rgba(69, 183, 209, 0.2) 100%);
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            animation: celebration-pulse 2s ease-in-out infinite;
+          }
+
+          @keyframes celebration-pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.02); }
+          }
+
+          .smoothalert-modal.neon {
+            background: rgba(0, 0, 0, 0.8);
+            border: 2px solid #00ffff;
+            box-shadow: 
+              0 0 20px #00ffff,
+              0 0 40px #00ffff,
+              0 0 60px #00ffff;
+            animation: neon-glow 2s ease-in-out infinite alternate;
+          }
+
+          @keyframes neon-glow {
+            from {
+              box-shadow: 
+                0 0 20px #00ffff,
+                0 0 40px #00ffff,
+                0 0 60px #00ffff;
+            }
+            to {
+              box-shadow: 
+                0 0 30px #00ffff,
+                0 0 60px #00ffff,
+                0 0 90px #00ffff;
+            }
+          }
+
+          .smoothalert-modal.rainbow {
+            background: linear-gradient(45deg, 
+              rgba(255, 0, 150, 0.2),
+              rgba(255, 159, 0, 0.2),
+              rgba(255, 255, 0, 0.2),
+              rgba(0, 255, 0, 0.2),
+              rgba(0, 159, 255, 0.2),
+              rgba(159, 0, 255, 0.2));
+            background-size: 400% 400%;
+            animation: rainbow-shift 3s ease infinite;
+          }
+
+          @keyframes rainbow-shift {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+          }
+
+          /* Progress Bar */
+          .smoothalert-progress {
+            width: 100%;
+            height: 6px;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 3px;
+            margin: 16px 0;
+            overflow: hidden;
+          }
+
+          .smoothalert-progress-bar {
+            height: 100%;
+            background: linear-gradient(90deg, var(--sa-primary), var(--sa-success));
+            border-radius: 3px;
+            transition: width 0.3s ease;
+            position: relative;
+          }
+
+          .smoothalert-progress-bar::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(90deg, 
+              transparent, 
+              rgba(255, 255, 255, 0.3), 
+              transparent);
+            animation: progress-shine 2s ease-in-out infinite;
+          }
+
+          @keyframes progress-shine {
+            0% { transform: translateX(-100%); }
+            100% { transform: translateX(100%); }
+          }
+
+          /* Image Modal Enhancements */
+          .smoothalert-modal.image-modal {
+            max-width: 90vw;
+            max-height: 90vh;
+            padding: 0;
+            background: rgba(0, 0, 0, 0.9);
+          }
+
+          .smoothalert-image-large {
+            width: 100%;
+            max-width: 800px;
+            height: auto;
+            border-radius: 20px;
+            display: block;
+          }
+
+          .smoothalert-image-content {
+            padding: 24px;
+          }
+
+          /* Sound Wave Animation */
+          .smoothalert-sound-wave {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 3px;
+            margin: 20px 0;
+          }
+
+          .sound-bar {
+            width: 4px;
+            background: var(--sa-primary);
+            border-radius: 2px;
+            animation: sound-wave 1.5s ease-in-out infinite;
+          }
+
+          .sound-bar:nth-child(1) { height: 20px; animation-delay: 0s; }
+          .sound-bar:nth-child(2) { height: 30px; animation-delay: 0.1s; }
+          .sound-bar:nth-child(3) { height: 25px; animation-delay: 0.2s; }
+          .sound-bar:nth-child(4) { height: 35px; animation-delay: 0.3s; }
+          .sound-bar:nth-child(5) { height: 20px; animation-delay: 0.4s; }
+
+          @keyframes sound-wave {
+            0%, 100% { transform: scaleY(1); }
+            50% { transform: scaleY(0.3); }
+          }
+
+          /* Shake Animation for Errors */
+          .smoothalert-modal.shake {
+            animation: shake 0.5s ease-in-out;
+          }
+
+          @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            10%, 30%, 50%, 70%, 90% { transform: translateX(-5px); }
+            20%, 40%, 60%, 80% { transform: translateX(5px); }
+          }
+
+          /* Bounce Animation for Success */
+          .smoothalert-modal.bounce {
+            animation: bounce 0.6s ease-in-out;
+          }
+
+          @keyframes bounce {
+            0%, 20%, 53%, 80%, 100% { transform: translate3d(0,0,0); }
+            40%, 43% { transform: translate3d(0,-20px,0); }
+            70% { transform: translate3d(0,-10px,0); }
+            90% { transform: translate3d(0,-4px,0); }
           }
         </style>
       `;
@@ -1032,6 +1283,284 @@ class SmoothAlertEngine {
     this.config.theme = theme;
     // Theme switching implementation would go here
   }
+
+  // Confetti Effects
+  createConfetti(options = {}) {
+    if (!this.config.confettiEnabled || this.config.reducedMotion) return;
+
+    const defaults = {
+      particleCount: 100,
+      duration: 3000,
+      colors: ['#ff6b6b', '#4ecdc4', '#45b7d1', '#f9ca24', '#6c5ce7', '#a0e7e5']
+    };
+
+    const config = { ...defaults, ...options };
+
+    // Create confetti container
+    const confettiContainer = document.createElement('div');
+    confettiContainer.className = 'smoothalert-confetti';
+    document.body.appendChild(confettiContainer);
+
+    // Generate particles
+    for (let i = 0; i < config.particleCount; i++) {
+      const particle = document.createElement('div');
+      particle.className = 'confetti-piece';
+      
+      // Random properties
+      const color = config.colors[Math.floor(Math.random() * config.colors.length)];
+      const size = Math.random() * 8 + 4;
+      const left = Math.random() * 100;
+      const delay = Math.random() * 2;
+      const duration = Math.random() * 2 + 2;
+
+      particle.style.background = color;
+      particle.style.width = size + 'px';
+      particle.style.height = size + 'px';
+      particle.style.left = left + '%';
+      particle.style.animationDelay = delay + 's';
+      particle.style.animationDuration = duration + 's';
+
+      confettiContainer.appendChild(particle);
+      this.confettiParticles.push(particle);
+    }
+
+    // Clean up after animation
+    const timeoutId = setTimeout(() => {
+      if (confettiContainer.parentNode) {
+        confettiContainer.parentNode.removeChild(confettiContainer);
+      }
+      this.confettiParticles = [];
+      this.timeouts.delete(timeoutId);
+    }, config.duration);
+
+    this.timeouts.add(timeoutId);
+  }
+
+  // Prompt Alert
+  async prompt(message, options = {}) {
+    await this.injectStyles();
+    
+    const defaults = {
+      title: 'Input Required',
+      placeholder: 'Enter your text...',
+      inputType: 'text',
+      defaultValue: '',
+      multiline: false,
+      required: false
+    };
+
+    const config = { ...defaults, ...options };
+
+    return new Promise((resolve) => {
+      const inputId = 'smoothalert-input-' + this.generateId();
+      const inputElement = config.multiline ? 'textarea' : 'input';
+      const inputClass = config.multiline ? 'smoothalert-input smoothalert-textarea' : 'smoothalert-input';
+      
+      let inputHTML = `<${inputElement} 
+        id="${inputId}"
+        class="${inputClass}"
+        placeholder="${config.placeholder}"
+        ${config.inputType ? `type="${config.inputType}"` : ''}
+        ${config.required ? 'required' : ''}
+      >${config.defaultValue}</${inputElement}>`;
+
+      const modalId = this.createModal({
+        title: config.title,
+        message: message + inputHTML,
+        type: 'info',
+        buttons: [
+          {
+            label: 'OK',
+            style: 'primary',
+            action: (modalId) => {
+              const input = document.getElementById(inputId);
+              const value = input ? input.value : '';
+              if (config.required && !value.trim()) {
+                input.focus();
+                return;
+              }
+              this.closeModal(modalId);
+              resolve(value);
+            }
+          },
+          {
+            label: 'Cancel',
+            style: 'secondary',
+            action: (modalId) => {
+              this.closeModal(modalId);
+              resolve(null);
+            }
+          }
+        ],
+        backdropClose: false
+      });
+
+      // Focus input after modal is shown
+      setTimeout(() => {
+        const input = document.getElementById(inputId);
+        if (input) input.focus();
+      }, 100);
+    });
+  }
+
+  // Loading Alert
+  async loading(message, options = {}) {
+    await this.injectStyles();
+    
+    const defaults = {
+      title: 'Loading...',
+      showSpinner: true,
+      showProgress: false,
+      progress: 0
+    };
+
+    const config = { ...defaults, ...options };
+    
+    let content = message || '';
+    
+    if (config.showSpinner) {
+      content += '<div class="smoothalert-spinner"></div>';
+    }
+    
+    if (config.showProgress) {
+      content += `
+        <div class="smoothalert-progress">
+          <div class="smoothalert-progress-bar" style="width: ${config.progress}%"></div>
+        </div>
+      `;
+    }
+
+    const modalId = await this.createModal({
+      title: config.title,
+      message: content,
+      type: 'info',
+      buttons: [],
+      showCloseButton: false,
+      backdropClose: false
+    });
+
+    return {
+      modalId,
+      updateProgress: (progress) => {
+        const progressBar = document.querySelector(`#${modalId} .smoothalert-progress-bar`);
+        if (progressBar) {
+          progressBar.style.width = progress + '%';
+        }
+      },
+      close: () => this.closeModal(modalId)
+    };
+  }
+
+  // Celebration Alert with Confetti
+  async celebration(message, options = {}) {
+    await this.injectStyles();
+    
+    const modalId = await this.createModal({
+      title: options.title || '🎉 Celebration!',
+      message,
+      type: 'success',
+      className: 'celebration bounce',
+      ...options
+    });
+
+    // Trigger confetti
+    this.createConfetti({
+      particleCount: 150,
+      duration: 4000
+    });
+
+    return modalId;
+  }
+
+  // Neon Style Alert
+  async neon(message, options = {}) {
+    await this.injectStyles();
+    
+    return this.createModal({
+      title: options.title || '⚡ Neon Alert',
+      message,
+      type: 'info',
+      className: 'neon',
+      ...options
+    });
+  }
+
+  // Rainbow Style Alert
+  async rainbow(message, options = {}) {
+    await this.injectStyles();
+    
+    return this.createModal({
+      title: options.title || '🌈 Rainbow Alert',
+      message,
+      type: 'info',
+      className: 'rainbow',
+      ...options
+    });
+  }
+
+  // Image Viewer Alert
+  async imageViewer(imageUrl, options = {}) {
+    await this.injectStyles();
+    
+    const defaults = {
+      title: '',
+      description: ''
+    };
+
+    const config = { ...defaults, ...options };
+    
+    let content = `<img src="${imageUrl}" alt="Image" class="smoothalert-image-large">`;
+    
+    if (config.description) {
+      content += `<div class="smoothalert-image-content">
+        <p class="smoothalert-message">${config.description}</p>
+      </div>`;
+    }
+
+    return this.createModal({
+      title: config.title,
+      message: content,
+      type: 'info',
+      className: 'image-modal',
+      buttons: [{ label: 'Close', style: 'primary', action: 'close' }],
+      ...options
+    });
+  }
+
+  // Sound Wave Alert (for audio notifications)
+  async soundWave(message, options = {}) {
+    await this.injectStyles();
+    
+    const soundWaveHTML = `
+      <div class="smoothalert-sound-wave">
+        <div class="sound-bar"></div>
+        <div class="sound-bar"></div>
+        <div class="sound-bar"></div>
+        <div class="sound-bar"></div>
+        <div class="sound-bar"></div>
+      </div>
+    `;
+
+    return this.createModal({
+      title: options.title || '🔊 Audio Alert',
+      message: message + soundWaveHTML,
+      type: 'info',
+      ...options
+    });
+  }
+
+  // Enhanced Error with Shake
+  async errorShake(message, options = {}) {
+    await this.injectStyles();
+    
+    return this.createModal({
+      title: options.title || 'Error!',
+      message,
+      type: 'error',
+      className: 'shake',
+      ...options
+    });
+  }
 }
 
 // Initialize and expose global API
@@ -1127,7 +1656,18 @@ document.addEventListener('DOMContentLoaded', () => {
     error: (message, options) => smoothAlertEngine.error(message, options),
     warning: (message, options) => smoothAlertEngine.warning(message, options),
     closeAll: () => smoothAlertEngine.closeAll(),
-    setTheme: (theme) => smoothAlertEngine.setTheme(theme)
+    setTheme: (theme) => smoothAlertEngine.setTheme(theme),
+    
+    // New awesome features! 🎉
+    prompt: (message, options) => smoothAlertEngine.prompt(message, options),
+    loading: (message, options) => smoothAlertEngine.loading(message, options),
+    celebration: (message, options) => smoothAlertEngine.celebration(message, options),
+    confetti: (options) => smoothAlertEngine.createConfetti(options),
+    neon: (message, options) => smoothAlertEngine.neon(message, options),
+    rainbow: (message, options) => smoothAlertEngine.rainbow(message, options),
+    imageViewer: (imageUrl, options) => smoothAlertEngine.imageViewer(imageUrl, options),
+    soundWave: (message, options) => smoothAlertEngine.soundWave(message, options),
+    errorShake: (message, options) => smoothAlertEngine.errorShake(message, options)
   };
 
   // Override native alert

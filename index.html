@@ -238,6 +238,87 @@
                 <p class="demo-description">Non-blocking notifications with progress bars</p>
                 <button class="btn" onclick="showToast()">Try Toast</button>
             </div>
+
+            <div class="demo-card">
+                <div class="demo-icon" style="color: #ff6b6b;">
+                    <i class="fas fa-star"></i>
+                </div>
+                <h3 class="demo-title">🎉 Celebration</h3>
+                <p class="demo-description">Success with confetti effects and animations</p>
+                <button class="btn" style="background: linear-gradient(45deg, #ff6b6b, #4ecdc4);" onclick="showCelebration()">Celebrate!</button>
+            </div>
+
+            <div class="demo-card">
+                <div class="demo-icon" style="color: #00ffff;">
+                    <i class="fas fa-bolt"></i>
+                </div>
+                <h3 class="demo-title">⚡ Neon Style</h3>
+                <p class="demo-description">Futuristic neon glow effects</p>
+                <button class="btn" style="background: #00ffff; color: black;" onclick="showNeon()">Neon Alert</button>
+            </div>
+
+            <div class="demo-card">
+                <div class="demo-icon" style="color: #ff69b4;">
+                    <i class="fas fa-rainbow"></i>
+                </div>
+                <h3 class="demo-title">🌈 Rainbow</h3>
+                <p class="demo-description">Colorful rainbow gradient animations</p>
+                <button class="btn" style="background: linear-gradient(45deg, #ff0080, #ff8000, #ffff00, #80ff00, #00ff80, #0080ff, #8000ff);" onclick="showRainbow()">Rainbow</button>
+            </div>
+
+            <div class="demo-card">
+                <div class="demo-icon" style="color: #ffd700;">
+                    <i class="fas fa-keyboard"></i>
+                </div>
+                <h3 class="demo-title">💬 Prompt Input</h3>
+                <p class="demo-description">Get user input with beautiful forms</p>
+                <button class="btn" style="background: #ffd700; color: black;" onclick="showPrompt()">Ask Input</button>
+            </div>
+
+            <div class="demo-card">
+                <div class="demo-icon" style="color: #87ceeb;">
+                    <i class="fas fa-spinner fa-spin"></i>
+                </div>
+                <h3 class="demo-title">⏳ Loading</h3>
+                <p class="demo-description">Loading indicators with progress bars</p>
+                <button class="btn" style="background: #87ceeb; color: black;" onclick="showLoading()">Show Loading</button>
+            </div>
+
+            <div class="demo-card">
+                <div class="demo-icon" style="color: #ff4757;">
+                    <i class="fas fa-exclamation-triangle"></i>
+                </div>
+                <h3 class="demo-title">💥 Error Shake</h3>
+                <p class="demo-description">Error alerts with shake animation</p>
+                <button class="btn" style="background: #ff4757;" onclick="showErrorShake()">Shake Error</button>
+            </div>
+
+            <div class="demo-card">
+                <div class="demo-icon" style="color: #32cd32;">
+                    <i class="fas fa-volume-up"></i>
+                </div>
+                <h3 class="demo-title">🔊 Sound Wave</h3>
+                <p class="demo-description">Audio alerts with sound wave animation</p>
+                <button class="btn" style="background: #32cd32; color: black;" onclick="showSoundWave()">Sound Alert</button>
+            </div>
+
+            <div class="demo-card">
+                <div class="demo-icon" style="color: #ff69b4;">
+                    <i class="fas fa-image"></i>
+                </div>
+                <h3 class="demo-title">🖼️ Image Viewer</h3>
+                <p class="demo-description">Beautiful image display modals</p>
+                <button class="btn" style="background: #ff69b4;" onclick="showImageViewer()">View Image</button>
+            </div>
+
+            <div class="demo-card">
+                <div class="demo-icon" style="color: #ffa500;">
+                    <i class="fas fa-magic"></i>
+                </div>
+                <h3 class="demo-title">✨ Just Confetti</h3>
+                <p class="demo-description">Pure confetti effects without modal</p>
+                <button class="btn" style="background: linear-gradient(45deg, #ff6b6b, #4ecdc4, #45b7d1, #f9ca24);" onclick="justConfetti()">Rain Confetti!</button>
+            </div>
         </div>
 
         <div class="features">
@@ -269,6 +350,34 @@
                     Automatic theme detection
                 </div>
             </div>
+            <div class="feature">
+                <i class="fas fa-star feature-icon"></i>
+                <div>
+                    <strong>Confetti Effects</strong><br>
+                    Celebration animations
+                </div>
+            </div>
+            <div class="feature">
+                <i class="fas fa-keyboard feature-icon"></i>
+                <div>
+                    <strong>Prompt Inputs</strong><br>
+                    Beautiful form dialogs
+                </div>
+            </div>
+            <div class="feature">
+                <i class="fas fa-spinner feature-icon"></i>
+                <div>
+                    <strong>Loading States</strong><br>
+                    Progress indicators
+                </div>
+            </div>
+            <div class="feature">
+                <i class="fas fa-bolt feature-icon"></i>
+                <div>
+                    <strong>Special Effects</strong><br>
+                    Neon, rainbow, shake animations
+                </div>
+            </div>
         </div>
 
         <div class="code-section">
@@ -276,26 +385,45 @@
             <pre><code>// Include the script
 &lt;script src="smoothalert.js"&gt;&lt;/script&gt;
 
-// Show a simple alert
+// Basic alerts
 SmoothAlert.show({
     type: 'success',
     title: 'Success!',
     message: 'Your action was completed successfully.'
 });
 
-// Show a toast notification
-SmoothAlert.toast({
-    type: 'info',
-    message: 'This is a toast notification!',
-    duration: 3000
+// 🎉 Celebration with confetti
+SmoothAlert.celebration('Congratulations! 🎉');
+
+// 💬 Prompt for user input
+const name = await SmoothAlert.prompt('What is your name?');
+
+// ⏳ Loading with progress
+const loader = SmoothAlert.loading('Processing...');
+loader.then(l => l.updateProgress(50));
+
+// ⚡ Neon style alert
+SmoothAlert.neon('Welcome to the future!');
+
+// 🌈 Rainbow gradient alert
+SmoothAlert.rainbow('Colors everywhere!');
+
+// 💥 Error with shake animation
+SmoothAlert.errorShake('Something went wrong!');
+
+// 🔊 Sound wave animation
+SmoothAlert.soundWave('Audio notification!');
+
+// 🖼️ Image viewer
+SmoothAlert.imageViewer('image.jpg', {
+    title: 'Beautiful Image',
+    description: 'Image description here'
 });
 
-// Show confirmation dialog
-SmoothAlert.confirm({
-    title: 'Are you sure?',
-    message: 'This action cannot be undone.',
-    onConfirm: () => console.log('Confirmed'),
-    onCancel: () => console.log('Cancelled')
+// ✨ Just confetti effects
+SmoothAlert.confetti({
+    particleCount: 100,
+    duration: 3000
 });</code></pre>
         </div>
     </div>
@@ -377,6 +505,98 @@ SmoothAlert.confirm({
                 message: randomMessage,
                 duration: 3000,
                 position: 'top-right'
+            });
+        }
+
+        function showCelebration() {
+            SmoothAlert.celebration('🎉 Congratulations! You just triggered an awesome celebration with confetti effects!', {
+                confirmText: 'Amazing!'
+            });
+        }
+
+        function showNeon() {
+            SmoothAlert.neon('⚡ Welcome to the future! This neon alert has a futuristic glow effect.', {
+                confirmText: 'Cool!'
+            });
+        }
+
+        function showRainbow() {
+            SmoothAlert.rainbow('🌈 Colors everywhere! This rainbow alert shifts through beautiful gradients.', {
+                confirmText: 'Colorful!'
+            });
+        }
+
+        function showPrompt() {
+            SmoothAlert.prompt('What is your name?', {
+                title: 'Personal Information',
+                placeholder: 'Enter your name...',
+                required: true
+            }).then(result => {
+                if (result) {
+                    SmoothAlert.celebration(`Hello ${result}! Nice to meet you! 🎉`);
+                } else {
+                    SmoothAlert.toast({
+                        type: 'info',
+                        message: 'Maybe next time! 👋',
+                        duration: 2000
+                    });
+                }
+            });
+        }
+
+        function showLoading() {
+            const loader = SmoothAlert.loading('Processing your request...', {
+                showProgress: true,
+                progress: 0
+            });
+
+            // Simulate progress
+            let progress = 0;
+            const interval = setInterval(() => {
+                progress += 10;
+                loader.then(l => l.updateProgress(progress));
+                
+                if (progress >= 100) {
+                    clearInterval(interval);
+                    setTimeout(() => {
+                        loader.then(l => l.close());
+                        SmoothAlert.celebration('Loading complete! 🎉');
+                    }, 500);
+                }
+            }, 200);
+        }
+
+        function showErrorShake() {
+            SmoothAlert.errorShake('💥 Oops! Something went terribly wrong. The system is shaking with this error!', {
+                confirmText: 'Fix it!'
+            });
+        }
+
+        function showSoundWave() {
+            SmoothAlert.soundWave('🔊 Audio notification detected! The sound waves are visualized beautifully.', {
+                confirmText: 'Heard it!'
+            });
+        }
+
+        function showImageViewer() {
+            SmoothAlert.imageViewer('https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=800&h=600', {
+                title: '🖼️ Beautiful Landscape',
+                description: 'This is a stunning landscape image displayed in our beautiful image viewer modal.'
+            });
+        }
+
+        function justConfetti() {
+            SmoothAlert.confetti({
+                particleCount: 200,
+                duration: 4000,
+                colors: ['#ff6b6b', '#4ecdc4', '#45b7d1', '#f9ca24', '#6c5ce7', '#a0e7e5']
+            });
+            
+            SmoothAlert.toast({
+                type: 'success',
+                message: '🎉 Confetti rain activated!',
+                duration: 2000,
+                position: 'top-center'
             });
         }
     </script>
