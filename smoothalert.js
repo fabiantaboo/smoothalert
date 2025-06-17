@@ -1045,38 +1045,41 @@ document.addEventListener('DOMContentLoaded', () => {
   // Enhanced API
   window.SmoothAlert = {
     // New unified show method for the HTML demo
-    show: (options) => {
+    show: async (options) => {
       if (typeof options === 'string') {
         return smoothAlertEngine.alert(options);
       }
       const { type = 'info', title, message, confirmText, onConfirm, customClass, autoClose } = options;
       
-      return smoothAlertEngine.createModal({
+      const modalId = await smoothAlertEngine.createModal({
         message,
         title: title || 'Alert',
         type,
         buttons: [{
           label: confirmText || 'OK',
           style: 'primary',
-          action: () => {
+          action: (modalId) => {
             if (onConfirm) onConfirm();
+            smoothAlertEngine.closeModal(modalId);
           }
         }],
         customClass,
         autoClose: autoClose ? { duration: autoClose } : false
       });
+      
+      return modalId;
     },
     
     // Enhanced confirm method for the HTML demo
-    confirm: (options) => {
+    confirm: async (options) => {
       if (typeof options === 'string') {
         return smoothAlertEngine.confirm(options);
       }
       
       const { title, message, confirmText, cancelText, onConfirm, onCancel } = options;
       
-      return new Promise((resolve) => {
-        const modalId = smoothAlertEngine.createModal({
+      return new Promise(async (resolve) => {
+        const modalId = await smoothAlertEngine.createModal({
           message,
           title: title || 'Confirm',
           type: 'warning',
@@ -1084,18 +1087,18 @@ document.addEventListener('DOMContentLoaded', () => {
             {
               label: confirmText || 'Yes',
               style: 'primary',
-              action: () => {
-                smoothAlertEngine.closeModal(modalId);
+              action: (modalId) => {
                 if (onConfirm) onConfirm();
+                smoothAlertEngine.closeModal(modalId);
                 resolve(true);
               }
             },
             {
               label: cancelText || 'No',
               style: 'secondary',
-              action: () => {
-                smoothAlertEngine.closeModal(modalId);
+              action: (modalId) => {
                 if (onCancel) onCancel();
+                smoothAlertEngine.closeModal(modalId);
                 resolve(false);
               }
             }
