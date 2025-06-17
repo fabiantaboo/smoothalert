@@ -484,6 +484,428 @@ SmoothAlert.form(formConfig, {
     }
 });</code></pre>
         </div>
+
+        <div class="code-section">
+            <h3 class="code-title">📝 Programmatic Forms - Advanced Usage</h3>
+            <pre><code>// 🔧 1. Dynamic Form Creation
+async function createDynamicForm() {
+    const formConfig = {
+        fields: [
+            {
+                type: 'text',
+                name: 'username',
+                label: 'Username',
+                placeholder: 'Enter username',
+                required: true,
+                pattern: '^[a-zA-Z0-9_]{3,20}$'  // Username validation
+            },
+            {
+                type: 'email',
+                name: 'email',
+                label: 'Email Address',
+                required: true
+            },
+            {
+                type: 'password',
+                name: 'password',
+                label: 'Password',
+                required: true,
+                placeholder: 'Min. 8 characters'
+            },
+            {
+                type: 'select',
+                name: 'role',
+                label: 'User Role',
+                required: true,
+                options: [
+                    { value: 'user', label: '👤 Regular User' },
+                    { value: 'admin', label: '👑 Administrator' },
+                    { value: 'moderator', label: '⚖️ Moderator' }
+                ]
+            },
+            {
+                type: 'checkbox',
+                name: 'permissions',
+                label: 'Permissions',
+                options: [
+                    { value: 'read', label: 'Read Access' },
+                    { value: 'write', label: 'Write Access' },
+                    { value: 'delete', label: 'Delete Access' }
+                ]
+            },
+            {
+                type: 'toggle',
+                name: 'active',
+                text: 'Account Active',
+                checked: true
+            }
+        ]
+    };
+
+    const result = await SmoothAlert.form(formConfig, {
+        title: '👤 Create User Account',
+        submitText: 'Create User',
+        validation: true,
+        width: 'large'
+    });
+
+    if (result.success) {
+        // Process form data
+        const userData = result.data;
+        console.log('New user:', userData);
+        
+        // Send to API
+        await sendToAPI('/api/users', userData);
+        
+        // Show success
+        SmoothAlert.celebration(`User ${userData.username} created successfully! 🎉`);
+    }
+}
+
+// 📊 2. Multi-Step Form with Validation
+async function createMultiStepForm() {
+    const formConfig = {
+        steps: [
+            {
+                title: 'Personal Info',
+                fields: [
+                    { type: 'text', name: 'firstName', label: 'First Name', required: true },
+                    { type: 'text', name: 'lastName', label: 'Last Name', required: true },
+                    { type: 'date', name: 'birthDate', label: 'Birth Date' },
+                    { type: 'tel', name: 'phone', label: 'Phone Number' }
+                ]
+            },
+            {
+                title: 'Address',
+                fields: [
+                    { type: 'text', name: 'street', label: 'Street Address', required: true },
+                    { type: 'text', name: 'city', label: 'City', required: true },
+                    { type: 'text', name: 'zip', label: 'ZIP Code', required: true },
+                    { type: 'select', name: 'country', label: 'Country', required: true,
+                      options: [
+                          { value: 'DE', label: '🇩🇪 Germany' },
+                          { value: 'US', label: '🇺🇸 United States' },
+                          { value: 'UK', label: '🇬🇧 United Kingdom' }
+                      ]
+                    }
+                ]
+            },
+            {
+                title: 'Preferences',
+                fields: [
+                    { type: 'checkbox', name: 'interests', label: 'Interests',
+                      options: [
+                          { value: 'tech', label: 'Technology' },
+                          { value: 'sports', label: 'Sports' },
+                          { value: 'music', label: 'Music' },
+                          { value: 'travel', label: 'Travel' }
+                      ]
+                    },
+                    { type: 'range', name: 'experience', label: 'Experience Level', 
+                      min: 1, max: 10, defaultValue: 5 },
+                    { type: 'toggle', name: 'newsletter', text: 'Subscribe to Newsletter', checked: true }
+                ]
+            }
+        ]
+    };
+
+    const result = await SmoothAlert.form(formConfig, {
+        title: '📋 Registration Wizard',
+        showSteps: true,
+        validation: true
+    });
+
+    return result;
+}
+
+// 🔄 3. Form with Dynamic Field Updates
+async function createDynamicFieldForm() {
+    const formConfig = {
+        fields: [
+            {
+                type: 'select',
+                name: 'productType',
+                label: 'Product Type',
+                required: true,
+                options: [
+                    { value: 'software', label: '💻 Software' },
+                    { value: 'hardware', label: '🖥️ Hardware' },
+                    { value: 'service', label: '🛠️ Service' }
+                ]
+            },
+            {
+                type: 'text',
+                name: 'productName',
+                label: 'Product Name',
+                required: true
+            },
+            {
+                type: 'number',
+                name: 'price',
+                label: 'Price (€)',
+                min: 0,
+                required: true
+            },
+            {
+                type: 'textarea',
+                name: 'description',
+                label: 'Description',
+                rows: 4
+            }
+        ]
+    };
+
+    const result = await SmoothAlert.form(formConfig, {
+        title: '🛍️ Add Product',
+        validation: true
+    });
+
+    if (result.success) {
+        // Validate business logic
+        if (result.data.price > 10000) {
+            const confirm = await SmoothAlert.confirm({
+                title: 'High Price Warning',
+                message: `Price €${result.data.price} is very high. Confirm?`,
+                confirmText: 'Yes, Continue',
+                cancelText: 'Edit Price'
+            });
+            
+            if (!confirm) {
+                return createDynamicFieldForm(); // Restart form
+            }
+        }
+        
+        return result.data;
+    }
+}
+
+// 📡 4. API Integration Example
+async function formWithAPIIntegration() {
+    try {
+        // Show loading while fetching data
+        const loader = SmoothAlert.loading('Loading form data...');
+        
+        // Fetch dynamic options from API
+        const categories = await fetch('/api/categories').then(r => r.json());
+        
+        loader.then(l => l.close());
+        
+        const formConfig = {
+            fields: [
+                {
+                    type: 'text',
+                    name: 'title',
+                    label: 'Article Title',
+                    required: true
+                },
+                {
+                    type: 'select',
+                    name: 'category',
+                    label: 'Category',
+                    required: true,
+                    options: categories.map(cat => ({
+                        value: cat.id,
+                        label: cat.name
+                    }))
+                },
+                {
+                    type: 'textarea',
+                    name: 'content',
+                    label: 'Content',
+                    rows: 8,
+                    required: true
+                },
+                {
+                    type: 'file',
+                    name: 'featured_image',
+                    label: 'Featured Image',
+                    accept: 'image/*'
+                },
+                {
+                    type: 'toggle',
+                    name: 'published',
+                    text: 'Publish Immediately',
+                    checked: false
+                }
+            ]
+        };
+
+        const result = await SmoothAlert.form(formConfig, {
+            title: '📝 Create Article',
+            validation: true,
+            width: 'large'
+        });
+
+        if (result.success) {
+            // Show loading during save
+            const saveLoader = SmoothAlert.loading('Saving article...');
+            
+            try {
+                // Create FormData for file upload
+                const formData = new FormData();
+                Object.keys(result.data).forEach(key => {
+                    if (key === 'featured_image' && result.data[key].length > 0) {
+                        formData.append(key, result.data[key][0]);
+                    } else {
+                        formData.append(key, result.data[key]);
+                    }
+                });
+                
+                // Save to API
+                const response = await fetch('/api/articles', {
+                    method: 'POST',
+                    body: formData
+                });
+                
+                saveLoader.then(l => l.close());
+                
+                if (response.ok) {
+                    SmoothAlert.celebration('Article saved successfully! 🎉');
+                } else {
+                    throw new Error('Save failed');
+                }
+            } catch (error) {
+                saveLoader.then(l => l.close());
+                SmoothAlert.errorShake('Failed to save article: ' + error.message);
+            }
+        }
+    } catch (error) {
+        SmoothAlert.error('Failed to load form: ' + error.message);
+    }
+}
+
+// 🎯 5. Form Validation with Custom Rules
+async function formWithCustomValidation() {
+    const formConfig = {
+        fields: [
+            {
+                type: 'email',
+                name: 'email',
+                label: 'Email',
+                required: true
+            },
+            {
+                type: 'password',
+                name: 'password',
+                label: 'Password',
+                required: true,
+                pattern: '^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[@$!%*?&])[A-Za-z\\d@$!%*?&]{8,}$'
+            },
+            {
+                type: 'password',
+                name: 'confirmPassword',
+                label: 'Confirm Password',
+                required: true
+            }
+        ]
+    };
+
+    const result = await SmoothAlert.form(formConfig, {
+        title: '🔐 Change Password',
+        validation: true
+    });
+
+    if (result.success) {
+        // Custom validation
+        if (result.data.password !== result.data.confirmPassword) {
+            SmoothAlert.errorShake('Passwords do not match!');
+            return formWithCustomValidation(); // Restart
+        }
+        
+        // Password strength check
+        const strength = checkPasswordStrength(result.data.password);
+        if (strength < 3) {
+            const confirm = await SmoothAlert.confirm({
+                title: 'Weak Password',
+                message: 'Password is weak. Continue anyway?',
+                confirmText: 'Yes, Continue',
+                cancelText: 'Choose Stronger'
+            });
+            
+            if (!confirm) {
+                return formWithCustomValidation();
+            }
+        }
+        
+        SmoothAlert.success('Password updated successfully!');
+        return result.data;
+    }
+}
+
+// 🔧 6. Utility Functions
+function checkPasswordStrength(password) {
+    let strength = 0;
+    if (password.length >= 8) strength++;
+    if (/[a-z]/.test(password)) strength++;
+    if (/[A-Z]/.test(password)) strength++;
+    if (/\d/.test(password)) strength++;
+    if (/[@$!%*?&]/.test(password)) strength++;
+    return strength;
+}
+
+async function sendToAPI(url, data) {
+    const response = await fetch(url, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(data)
+    });
+    
+    if (!response.ok) {
+        throw new Error(`API Error: ${response.status}`);
+    }
+    
+    return response.json();
+}
+
+// 🚀 Usage Examples
+document.addEventListener('DOMContentLoaded', () => {
+    // Add programmatic form buttons
+    window.showProgrammaticForm = createDynamicForm;
+    window.showMultiStepForm = createMultiStepForm;
+    window.showAPIForm = formWithAPIIntegration;
+    window.showValidationForm = formWithCustomValidation;
+});</code></pre>
+        </div>
+
+        <div class="demo-grid" style="margin-top: 3rem;">
+            <div class="demo-card">
+                <div class="demo-icon" style="color: #8e44ad;">
+                    <i class="fas fa-code"></i>
+                </div>
+                <h3 class="demo-title">🔧 Dynamic Form</h3>
+                <p class="demo-description">Programmatically created form with validation and API integration</p>
+                <button class="btn" style="background: #8e44ad;" onclick="showProgrammaticForm()">Create Dynamic Form</button>
+            </div>
+
+            <div class="demo-card">
+                <div class="demo-icon" style="color: #27ae60;">
+                    <i class="fas fa-step-forward"></i>
+                </div>
+                <h3 class="demo-title">📋 Multi-Step Form</h3>
+                <p class="demo-description">Wizard-style form with multiple steps and progress tracking</p>
+                <button class="btn" style="background: #27ae60;" onclick="showMultiStepForm()">Multi-Step Wizard</button>
+            </div>
+
+            <div class="demo-card">
+                <div class="demo-icon" style="color: #3498db;">
+                    <i class="fas fa-cloud"></i>
+                </div>
+                <h3 class="demo-title">📡 API Integration</h3>
+                <p class="demo-description">Form with dynamic data loading and API submission</p>
+                <button class="btn" style="background: #3498db;" onclick="showAPIForm()">API Form Demo</button>
+            </div>
+
+            <div class="demo-card">
+                <div class="demo-icon" style="color: #e74c3c;">
+                    <i class="fas fa-shield-alt"></i>
+                </div>
+                <h3 class="demo-title">🔐 Custom Validation</h3>
+                <p class="demo-description">Advanced validation with custom rules and business logic</p>
+                <button class="btn" style="background: #e74c3c;" onclick="showValidationForm()">Validation Demo</button>
+            </div>
+        </div>
     </div>
 
     <script>
@@ -1052,6 +1474,365 @@ SmoothAlert.form(formConfig, {
                     console.log('Survey data:', result.data);
                 }
             });
+        }
+
+        // 🚀 PROGRAMMATIC FORM DEMOS
+
+        async function showProgrammaticForm() {
+            const formConfig = {
+                fields: [
+                    {
+                        type: 'text',
+                        name: 'username',
+                        label: 'Username',
+                        placeholder: 'Enter username (3-20 chars)',
+                        required: true,
+                        pattern: '^[a-zA-Z0-9_]{3,20}$'
+                    },
+                    {
+                        type: 'email',
+                        name: 'email',
+                        label: 'Email Address',
+                        required: true
+                    },
+                    {
+                        type: 'password',
+                        name: 'password',
+                        label: 'Password',
+                        required: true,
+                        placeholder: 'Min. 8 characters'
+                    },
+                    {
+                        type: 'select',
+                        name: 'role',
+                        label: 'User Role',
+                        required: true,
+                        options: [
+                            { value: 'user', label: '👤 Regular User' },
+                            { value: 'admin', label: '👑 Administrator' },
+                            { value: 'moderator', label: '⚖️ Moderator' }
+                        ]
+                    },
+                    {
+                        type: 'checkbox',
+                        name: 'permissions',
+                        label: 'Permissions (Select all that apply)',
+                        options: [
+                            { value: 'read', label: 'Read Access' },
+                            { value: 'write', label: 'Write Access' },
+                            { value: 'delete', label: 'Delete Access' },
+                            { value: 'admin', label: 'Admin Panel Access' }
+                        ]
+                    },
+                    {
+                        type: 'toggle',
+                        name: 'active',
+                        text: 'Account Active',
+                        checked: true
+                    },
+                    {
+                        type: 'textarea',
+                        name: 'notes',
+                        label: 'Notes',
+                        placeholder: 'Optional notes about this user...',
+                        rows: 3
+                    }
+                ]
+            };
+
+            const result = await SmoothAlert.form(formConfig, {
+                title: '👤 Create User Account',
+                submitText: 'Create User',
+                validation: true,
+                width: 'large'
+            });
+
+            if (result.success) {
+                const userData = result.data;
+                console.log('New user data:', userData);
+                
+                // Simulate API call
+                const loader = SmoothAlert.loading('Creating user account...');
+                
+                setTimeout(() => {
+                    loader.then(l => l.close());
+                    SmoothAlert.celebration(`User ${userData.username} created successfully! 🎉\n\nRole: ${userData.role}\nPermissions: ${userData.permissions.join(', ')}`);
+                }, 2000);
+            }
+        }
+
+        async function showMultiStepForm() {
+            const formConfig = {
+                steps: [
+                    {
+                        title: 'Personal Info',
+                        fields: [
+                            { type: 'text', name: 'firstName', label: 'First Name', required: true, placeholder: 'Your first name' },
+                            { type: 'text', name: 'lastName', label: 'Last Name', required: true, placeholder: 'Your last name' },
+                            { type: 'date', name: 'birthDate', label: 'Date of Birth' },
+                            { type: 'tel', name: 'phone', label: 'Phone Number', placeholder: '+49 123 456789' }
+                        ]
+                    },
+                    {
+                        title: 'Address',
+                        fields: [
+                            { type: 'text', name: 'street', label: 'Street Address', required: true, placeholder: 'Street and number' },
+                            { type: 'row', fields: [
+                                { type: 'text', name: 'city', label: 'City', required: true, placeholder: 'Your city' },
+                                { type: 'text', name: 'zip', label: 'ZIP Code', required: true, placeholder: '12345' }
+                            ]},
+                            { type: 'select', name: 'country', label: 'Country', required: true, placeholder: 'Select country',
+                              options: [
+                                  { value: 'DE', label: '🇩🇪 Germany' },
+                                  { value: 'US', label: '🇺🇸 United States' },
+                                  { value: 'UK', label: '🇬🇧 United Kingdom' },
+                                  { value: 'FR', label: '🇫🇷 France' },
+                                  { value: 'IT', label: '🇮🇹 Italy' }
+                              ]
+                            }
+                        ]
+                    },
+                    {
+                        title: 'Preferences',
+                        fields: [
+                            { type: 'checkbox', name: 'interests', label: 'Interests (Select all that apply)',
+                              options: [
+                                  { value: 'tech', label: '💻 Technology' },
+                                  { value: 'sports', label: '⚽ Sports' },
+                                  { value: 'music', label: '🎵 Music' },
+                                  { value: 'travel', label: '✈️ Travel' },
+                                  { value: 'food', label: '🍕 Food' },
+                                  { value: 'books', label: '📚 Books' }
+                              ]
+                            },
+                            { type: 'range', name: 'experience', label: 'Experience Level (1-10)', min: 1, max: 10, defaultValue: 5 },
+                            { type: 'toggle', name: 'newsletter', text: 'Subscribe to Newsletter', checked: true },
+                            { type: 'toggle', name: 'marketing', text: 'Receive Marketing Emails', checked: false }
+                        ]
+                    }
+                ]
+            };
+
+            const result = await SmoothAlert.form(formConfig, {
+                title: '📋 Registration Wizard',
+                showSteps: true,
+                validation: true,
+                width: 'large'
+            });
+
+            if (result.success) {
+                console.log('Multi-step form data:', result.data);
+                
+                const loader = SmoothAlert.loading('Processing registration...');
+                
+                setTimeout(() => {
+                    loader.then(l => l.close());
+                    SmoothAlert.celebration(`Welcome ${result.data.firstName} ${result.data.lastName}! 🎉\n\nRegistration completed successfully!\nInterests: ${result.data.interests.join(', ')}`);
+                }, 2500);
+            }
+        }
+
+        async function showAPIForm() {
+            try {
+                // Simulate loading categories from API
+                const loader = SmoothAlert.loading('Loading form data from API...');
+                
+                // Simulate API delay
+                await new Promise(resolve => setTimeout(resolve, 1500));
+                
+                // Mock API data
+                const categories = [
+                    { id: 'tech', name: '💻 Technology' },
+                    { id: 'business', name: '💼 Business' },
+                    { id: 'design', name: '🎨 Design' },
+                    { id: 'marketing', name: '📈 Marketing' },
+                    { id: 'lifestyle', name: '🌟 Lifestyle' }
+                ];
+                
+                loader.then(l => l.close());
+                
+                const formConfig = {
+                    fields: [
+                        {
+                            type: 'text',
+                            name: 'title',
+                            label: 'Article Title',
+                            required: true,
+                            placeholder: 'Enter a catchy title...'
+                        },
+                        {
+                            type: 'select',
+                            name: 'category',
+                            label: 'Category',
+                            required: true,
+                            placeholder: 'Select category',
+                            options: categories.map(cat => ({
+                                value: cat.id,
+                                label: cat.name
+                            }))
+                        },
+                        {
+                            type: 'row',
+                            fields: [
+                                {
+                                    type: 'text',
+                                    name: 'author',
+                                    label: 'Author',
+                                    required: true,
+                                    placeholder: 'Author name'
+                                },
+                                {
+                                    type: 'date',
+                                    name: 'publishDate',
+                                    label: 'Publish Date'
+                                }
+                            ]
+                        },
+                        {
+                            type: 'textarea',
+                            name: 'content',
+                            label: 'Article Content',
+                            rows: 6,
+                            required: true,
+                            placeholder: 'Write your article content here...'
+                        },
+                        {
+                            type: 'file',
+                            name: 'featured_image',
+                            label: 'Featured Image',
+                            accept: 'image/*',
+                            placeholder: 'Choose an image file...'
+                        },
+                        {
+                            type: 'row',
+                            fields: [
+                                {
+                                    type: 'toggle',
+                                    name: 'published',
+                                    text: 'Publish Immediately',
+                                    checked: false
+                                },
+                                {
+                                    type: 'toggle',
+                                    name: 'featured',
+                                    text: 'Featured Article',
+                                    checked: false
+                                }
+                            ]
+                        }
+                    ]
+                };
+
+                const result = await SmoothAlert.form(formConfig, {
+                    title: '📝 Create Article (API Demo)',
+                    validation: true,
+                    width: 'large'
+                });
+
+                if (result.success) {
+                    console.log('Article form data:', result.data);
+                    
+                    // Simulate API save
+                    const saveLoader = SmoothAlert.loading('Saving article to API...');
+                    
+                    setTimeout(() => {
+                        saveLoader.then(l => l.close());
+                        
+                        const status = result.data.published ? 'published' : 'saved as draft';
+                        SmoothAlert.celebration(`Article "${result.data.title}" ${status} successfully! 🎉`);
+                    }, 2000);
+                }
+            } catch (error) {
+                SmoothAlert.errorShake('Failed to load form data: ' + error.message);
+            }
+        }
+
+        async function showValidationForm() {
+            const formConfig = {
+                fields: [
+                    {
+                        type: 'email',
+                        name: 'email',
+                        label: 'Email Address',
+                        required: true,
+                        placeholder: 'your@email.com'
+                    },
+                    {
+                        type: 'password',
+                        name: 'password',
+                        label: 'New Password',
+                        required: true,
+                        placeholder: 'Min 8 chars, uppercase, lowercase, number, special char',
+                        pattern: '^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[@$!%*?&])[A-Za-z\\d@$!%*?&]{8,}$'
+                    },
+                    {
+                        type: 'password',
+                        name: 'confirmPassword',
+                        label: 'Confirm Password',
+                        required: true,
+                        placeholder: 'Repeat the password'
+                    },
+                    {
+                        type: 'checkbox',
+                        name: 'requirements',
+                        label: 'Security Requirements',
+                        options: [
+                            { value: 'twoFactor', label: '🔐 Enable Two-Factor Authentication' },
+                            { value: 'emailNotify', label: '📧 Email notifications for login' },
+                            { value: 'sessionTimeout', label: '⏰ Auto-logout after inactivity' }
+                        ]
+                    }
+                ]
+            };
+
+            const result = await SmoothAlert.form(formConfig, {
+                title: '🔐 Change Password (Custom Validation)',
+                validation: true,
+                submitText: 'Update Password'
+            });
+
+            if (result.success) {
+                // Custom validation
+                if (result.data.password !== result.data.confirmPassword) {
+                    SmoothAlert.errorShake('Passwords do not match! Please try again.');
+                    return showValidationForm(); // Restart form
+                }
+                
+                // Password strength check
+                const strength = checkPasswordStrength(result.data.password);
+                if (strength < 4) {
+                    const confirm = await SmoothAlert.confirm({
+                        title: '⚠️ Weak Password',
+                        message: `Password strength: ${strength}/5. This password may not be secure enough. Continue anyway?`,
+                        confirmText: 'Yes, Continue',
+                        cancelText: 'Choose Stronger Password'
+                    });
+                    
+                    if (!confirm) {
+                        return showValidationForm(); // Restart form
+                    }
+                }
+                
+                console.log('Password form data:', result.data);
+                
+                const loader = SmoothAlert.loading('Updating password...');
+                
+                setTimeout(() => {
+                    loader.then(l => l.close());
+                    SmoothAlert.success(`Password updated successfully! 🔐\n\nSecurity features enabled: ${result.data.requirements.length}`);
+                }, 1500);
+            }
+        }
+
+        // Utility function for password strength
+        function checkPasswordStrength(password) {
+            let strength = 0;
+            if (password.length >= 8) strength++;
+            if (/[a-z]/.test(password)) strength++;
+            if (/[A-Z]/.test(password)) strength++;
+            if (/\d/.test(password)) strength++;
+            if (/[@$!%*?&]/.test(password)) strength++;
+            return strength;
         }
     </script>
 </body>
