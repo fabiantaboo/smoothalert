@@ -662,19 +662,35 @@ SmoothAlert.form(formConfig, {
             // Create a modal with multiple action buttons
             const menuHTML = `
                 <div style="text-align: center; margin: 20px 0;">
-                    <p style="margin-bottom: 30px; color: rgba(255,255,255,0.9);">Select which type of form you want to see:</p>
-                    <div style="display: grid; gap: 15px;">
-                        <button class="btn" style="background: var(--primary); width: 100%; padding: 15px;" onclick="closeCurrentAndShow('registration')">
-                            👤 User Registration Form
+                    <p style="margin-bottom: 30px; color: rgba(255,255,255,0.9); font-size: 16px;">Choose the type of form you want to explore:</p>
+                    <div style="display: grid; gap: 16px; max-width: 500px; margin: 0 auto;">
+                        <button class="form-menu-button" onclick="closeCurrentAndShow('registration')">
+                            <div class="icon">👤</div>
+                            <div class="content">
+                                <div class="title">User Registration</div>
+                                <div class="description">Complete signup form with validation, fields, and terms</div>
+                            </div>
                         </button>
-                        <button class="btn" style="background: var(--success); width: 100%; padding: 15px;" onclick="closeCurrentAndShow('contact')">
-                            🏢 Contact Form
+                        <button class="form-menu-button" onclick="closeCurrentAndShow('contact')">
+                            <div class="icon">🏢</div>
+                            <div class="content">
+                                <div class="title">Contact Form</div>
+                                <div class="description">Professional contact form with priority levels and file uploads</div>
+                            </div>
                         </button>
-                        <button class="btn" style="background: var(--warning); width: 100%; padding: 15px;" onclick="closeCurrentAndShow('settings')">
-                            ⚙️ Settings Form
+                        <button class="form-menu-button" onclick="closeCurrentAndShow('settings')">
+                            <div class="icon">⚙️</div>
+                            <div class="content">
+                                <div class="title">Settings Form</div>
+                                <div class="description">User preferences with toggles, sliders, and dropdowns</div>
+                            </div>
                         </button>
-                        <button class="btn" style="background: var(--info); width: 100%; padding: 15px;" onclick="closeCurrentAndShow('survey')">
-                            📋 Survey Form
+                        <button class="form-menu-button" onclick="closeCurrentAndShow('survey')">
+                            <div class="icon">📋</div>
+                            <div class="content">
+                                <div class="title">Feedback Survey</div>
+                                <div class="description">Customer satisfaction survey with ratings and feedback</div>
+                            </div>
                         </button>
                     </div>
                 </div>

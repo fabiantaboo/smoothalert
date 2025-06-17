@@ -148,6 +148,8 @@ class SmoothAlertEngine {
             transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
             overflow: hidden;
             will-change: transform, opacity;
+            display: flex;
+            flex-direction: column;
           }
 
           .smoothalert-modal.show {
@@ -163,6 +165,42 @@ class SmoothAlertEngine {
             right: 0;
             height: 1px;
             background: linear-gradient(90deg, transparent, var(--sa-glass-border), transparent);
+          }
+
+          .smoothalert-modal-content {
+            flex: 1;
+            overflow-y: auto;
+            overflow-x: hidden;
+            max-height: calc(90vh - 64px); /* Account for padding */
+            margin: -32px;
+            padding: 32px;
+          }
+
+          .smoothalert-modal-content::-webkit-scrollbar {
+            width: 8px;
+          }
+
+          .smoothalert-modal-content::-webkit-scrollbar-track {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 4px;
+            margin: 8px 0;
+          }
+
+          .smoothalert-modal-content::-webkit-scrollbar-thumb {
+            background: linear-gradient(180deg, var(--sa-primary), var(--sa-success));
+            border-radius: 4px;
+            transition: all 0.3s ease;
+          }
+
+          .smoothalert-modal-content::-webkit-scrollbar-thumb:hover {
+            background: linear-gradient(180deg, #5856eb, #0ea575);
+            box-shadow: 0 2px 8px rgba(99, 102, 241, 0.4);
+          }
+
+          /* Firefox Scrollbar for modal content */
+          .smoothalert-modal-content {
+            scrollbar-width: thin;
+            scrollbar-color: var(--sa-primary) rgba(255, 255, 255, 0.1);
           }
 
           .smoothalert-close {
@@ -183,6 +221,7 @@ class SmoothAlertEngine {
             transition: all 0.2s ease;
             backdrop-filter: blur(8px);
             will-change: transform, background-color;
+            z-index: 10;
           }
 
           .smoothalert-close:hover {
@@ -1088,6 +1127,8 @@ class SmoothAlertEngine {
             padding: 32px;
             background: var(--sa-glass-bg);
             backdrop-filter: blur(var(--sa-blur));
+            border: 1px solid var(--sa-glass-border);
+            overflow-y: auto;
           }
 
           .smoothalert-image-large {
@@ -1096,12 +1137,88 @@ class SmoothAlertEngine {
             height: auto;
             border-radius: 12px;
             display: block;
-            margin: 0 auto;
+            margin: 0 auto 16px auto;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
           }
 
           .smoothalert-image-content {
             padding: 16px 0 0 0;
             text-align: center;
+          }
+
+          /* Form Modal Specific Styling */
+          .smoothalert-modal.form-modal {
+            max-height: 85vh;
+            overflow-y: auto;
+            padding: 32px;
+          }
+
+          .smoothalert-modal.form-modal.large {
+            max-width: 700px;
+            width: 90vw;
+          }
+
+          .smoothalert-modal.form-modal.medium {
+            max-width: 500px;
+            width: 80vw;
+          }
+
+          .smoothalert-modal.form-modal.small {
+            max-width: 400px;
+            width: 70vw;
+          }
+
+          .smoothalert-modal.form-modal.full {
+            max-width: 95vw;
+            width: 95vw;
+            max-height: 95vh;
+          }
+
+          /* Enhanced Menu Buttons for Advanced Forms */
+          .form-menu-button {
+            background: linear-gradient(135deg, var(--sa-glass-bg), rgba(255, 255, 255, 0.15));
+            border: 1px solid var(--sa-glass-border);
+            border-radius: 12px;
+            padding: 20px;
+            width: 100%;
+            color: white;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            backdrop-filter: blur(8px);
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            text-align: left;
+          }
+
+          .form-menu-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.2), rgba(255, 255, 255, 0.25));
+            border-color: rgba(255, 255, 255, 0.3);
+          }
+
+          .form-menu-button .icon {
+            font-size: 24px;
+            min-width: 32px;
+          }
+
+          .form-menu-button .content {
+            flex: 1;
+          }
+
+          .form-menu-button .title {
+            font-size: 16px;
+            font-weight: 600;
+            margin-bottom: 4px;
+          }
+
+          .form-menu-button .description {
+            font-size: 13px;
+            opacity: 0.8;
+            line-height: 1.3;
           }
 
           /* Sound Wave Animation */
@@ -1329,8 +1446,13 @@ class SmoothAlertEngine {
       modal.appendChild(closeButton);
     }
 
-    modal.innerHTML = content;
-    modal.appendChild(buttonsContainer);
+    // Create content wrapper for scrolling
+    const contentWrapper = document.createElement('div');
+    contentWrapper.className = 'smoothalert-modal-content';
+    contentWrapper.innerHTML = content;
+    contentWrapper.appendChild(buttonsContainer);
+    
+    modal.appendChild(contentWrapper);
     overlay.appendChild(modal);
 
     // Add backdrop close
@@ -2240,7 +2362,7 @@ class SmoothAlertEngine {
         >`;
         break;
     }
-    
+
     // Validation message placeholder
     html += `<div class="form-validation" id="${fieldId}-validation"></div>`;
     
