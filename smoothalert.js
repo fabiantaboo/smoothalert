@@ -564,6 +564,412 @@ class SmoothAlertEngine {
             font-family: inherit;
           }
 
+          /* Comprehensive Form Styles */
+          .smoothalert-form {
+            width: 100%;
+            max-width: 600px;
+            margin: 0 auto;
+          }
+
+          .form-group {
+            margin-bottom: 24px;
+            position: relative;
+          }
+
+          .form-label {
+            display: block;
+            font-size: 14px;
+            font-weight: 600;
+            color: rgba(255, 255, 255, 0.9);
+            margin-bottom: 8px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+          }
+
+          .form-label.required::after {
+            content: '*';
+            color: #ff6b6b;
+            margin-left: 4px;
+          }
+
+          .form-input {
+            width: 100%;
+            padding: 14px 16px;
+            border: 2px solid rgba(255, 255, 255, 0.2);
+            border-radius: 12px;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(8px);
+            color: white;
+            font-size: 16px;
+            outline: none;
+            transition: all 0.3s ease;
+            font-family: inherit;
+          }
+
+          .form-input::placeholder {
+            color: rgba(255, 255, 255, 0.5);
+          }
+
+          .form-input:focus {
+            border-color: var(--sa-primary);
+            background: rgba(255, 255, 255, 0.15);
+            box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.2);
+            transform: translateY(-1px);
+          }
+
+          .form-input:invalid {
+            border-color: var(--sa-error);
+          }
+
+          .form-input:valid {
+            border-color: var(--sa-success);
+          }
+
+          /* Select Dropdown */
+          .form-select {
+            appearance: none;
+            background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%23ffffff' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='m6 8 4 4 4-4'/%3e%3c/svg%3e");
+            background-position: right 12px center;
+            background-repeat: no-repeat;
+            background-size: 16px;
+            padding-right: 48px;
+          }
+
+          /* Checkbox Styles */
+          .form-checkbox-group {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            cursor: pointer;
+            padding: 8px 0;
+          }
+
+          .form-checkbox {
+            appearance: none;
+            width: 20px;
+            height: 20px;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            border-radius: 4px;
+            background: rgba(255, 255, 255, 0.1);
+            cursor: pointer;
+            position: relative;
+            transition: all 0.3s ease;
+          }
+
+          .form-checkbox:checked {
+            background: var(--sa-primary);
+            border-color: var(--sa-primary);
+          }
+
+          .form-checkbox:checked::after {
+            content: '✓';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            color: white;
+            font-size: 12px;
+            font-weight: bold;
+          }
+
+          /* Radio Button Styles */
+          .form-radio-group {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+          }
+
+          .form-radio-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            cursor: pointer;
+            padding: 8px 12px;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+          }
+
+          .form-radio-item:hover {
+            background: rgba(255, 255, 255, 0.05);
+          }
+
+          .form-radio {
+            appearance: none;
+            width: 20px;
+            height: 20px;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.1);
+            cursor: pointer;
+            position: relative;
+            transition: all 0.3s ease;
+          }
+
+          .form-radio:checked {
+            border-color: var(--sa-primary);
+          }
+
+          .form-radio:checked::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 8px;
+            height: 8px;
+            background: var(--sa-primary);
+            border-radius: 50%;
+          }
+
+          /* File Upload Styles */
+          .form-file-upload {
+            position: relative;
+            display: block;
+            cursor: pointer;
+          }
+
+          .form-file-input {
+            opacity: 0;
+            position: absolute;
+            z-index: -1;
+          }
+
+          .form-file-label {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            padding: 20px;
+            border: 2px dashed rgba(255, 255, 255, 0.3);
+            border-radius: 12px;
+            background: rgba(255, 255, 255, 0.05);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 500;
+          }
+
+          .form-file-label:hover {
+            border-color: var(--sa-primary);
+            background: rgba(99, 102, 241, 0.1);
+          }
+
+          .form-file-icon {
+            font-size: 24px;
+            color: var(--sa-primary);
+          }
+
+          /* Range Slider */
+          .form-range {
+            width: 100%;
+            height: 6px;
+            border-radius: 3px;
+            background: rgba(255, 255, 255, 0.2);
+            outline: none;
+            appearance: none;
+            cursor: pointer;
+          }
+
+          .form-range::-webkit-slider-thumb {
+            appearance: none;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: var(--sa-primary);
+            cursor: pointer;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+          }
+
+          .form-range::-moz-range-thumb {
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: var(--sa-primary);
+            cursor: pointer;
+            border: none;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+          }
+
+          /* Form Grid Layout */
+          .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px;
+          }
+
+          .form-row.three-cols {
+            grid-template-columns: 1fr 1fr 1fr;
+          }
+
+          .form-row.four-cols {
+            grid-template-columns: 1fr 1fr 1fr 1fr;
+          }
+
+          /* Validation Messages */
+          .form-error {
+            color: var(--sa-error);
+            font-size: 12px;
+            margin-top: 4px;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+          }
+
+          .form-success {
+            color: var(--sa-success);
+            font-size: 12px;
+            margin-top: 4px;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+          }
+
+          /* Form Buttons */
+          .form-buttons {
+            display: flex;
+            gap: 12px;
+            justify-content: flex-end;
+            margin-top: 32px;
+            padding-top: 24px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+          }
+
+          .form-button {
+            padding: 12px 24px;
+            border: none;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            min-width: 100px;
+          }
+
+          .form-button-primary {
+            background: var(--sa-primary);
+            color: white;
+          }
+
+          .form-button-primary:hover {
+            background: #5856eb;
+            transform: translateY(-1px);
+          }
+
+          .form-button-secondary {
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+          }
+
+          .form-button-secondary:hover {
+            background: rgba(255, 255, 255, 0.2);
+          }
+
+          /* Toggle Switch */
+          .form-toggle-group {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 16px;
+          }
+
+          .form-toggle {
+            position: relative;
+            width: 50px;
+            height: 24px;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+          }
+
+          .form-toggle input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+          }
+
+          .form-toggle-slider {
+            position: absolute;
+            top: 2px;
+            left: 2px;
+            width: 20px;
+            height: 20px;
+            background: white;
+            border-radius: 50%;
+            transition: all 0.3s ease;
+          }
+
+          .form-toggle input:checked + .form-toggle-slider {
+            transform: translateX(26px);
+          }
+
+          .form-toggle input:checked ~ .form-toggle {
+            background: var(--sa-primary);
+          }
+
+          /* Multi-Step Form */
+          .form-steps {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 32px;
+          }
+
+          .form-step {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 16px;
+            border-radius: 20px;
+            background: rgba(255, 255, 255, 0.1);
+            margin: 0 4px;
+            transition: all 0.3s ease;
+          }
+
+          .form-step.active {
+            background: var(--sa-primary);
+          }
+
+          .form-step.completed {
+            background: var(--sa-success);
+          }
+
+          .form-step-number {
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.2);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+            font-weight: bold;
+          }
+
+          .form-step.active .form-step-number,
+          .form-step.completed .form-step-number {
+            background: rgba(255, 255, 255, 0.3);
+          }
+
+          /* Mobile Responsiveness */
+          @media (max-width: 768px) {
+            .form-row {
+              grid-template-columns: 1fr;
+            }
+            
+            .form-row.three-cols,
+            .form-row.four-cols {
+              grid-template-columns: 1fr;
+            }
+            
+            .form-buttons {
+              flex-direction: column;
+            }
+            
+            .form-steps {
+              flex-wrap: wrap;
+            }
+          }
+
           /* Loading Spinner */
           .smoothalert-spinner {
             width: 40px;
@@ -1561,6 +1967,487 @@ class SmoothAlertEngine {
       ...options
     });
   }
+
+  // Comprehensive Form Builder
+  async form(formConfig, options = {}) {
+    await this.injectStyles();
+    
+    const defaults = {
+      title: 'Form',
+      submitText: 'Submit',
+      cancelText: 'Cancel',
+      showSteps: false,
+      validation: true,
+      width: 'large' // small, medium, large, full
+    };
+
+    const config = { ...defaults, ...options };
+    
+    return new Promise((resolve) => {
+      const formId = 'smoothalert-form-' + this.generateId();
+      const formData = {};
+      const errors = {};
+      
+      // Generate form HTML
+      const formHTML = this.generateFormHTML(formConfig, formId, config);
+      
+      const modalClass = `form-modal ${config.width}`;
+      
+      const modalId = this.createModal({
+        title: config.title,
+        message: formHTML,
+        type: 'info',
+        className: modalClass,
+        showCloseButton: false,
+        backdropClose: false,
+        buttons: [
+          {
+            label: config.submitText,
+            style: 'primary',
+            action: (modalId) => {
+              if (this.validateForm(formConfig, formId, config.validation)) {
+                const data = this.collectFormData(formConfig, formId);
+                this.closeModal(modalId);
+                resolve({ success: true, data });
+              }
+            }
+          },
+          {
+            label: config.cancelText,
+            style: 'secondary',
+            action: (modalId) => {
+              this.closeModal(modalId);
+              resolve({ success: false, data: null });
+            }
+          }
+        ]
+      });
+
+      // Initialize form after modal is created
+      setTimeout(() => {
+        this.initializeFormElements(formConfig, formId, config);
+      }, 100);
+    });
+  }
+
+  // Generate Form HTML
+  generateFormHTML(formConfig, formId, config) {
+    let html = `<div class="smoothalert-form" id="${formId}">`;
+    
+    // Add steps if multi-step
+    if (config.showSteps && formConfig.steps) {
+      html += this.generateStepsHTML(formConfig.steps);
+    }
+    
+    // Generate form fields
+    if (formConfig.fields) {
+      html += this.generateFieldsHTML(formConfig.fields);
+    } else if (formConfig.steps) {
+      // Multi-step form
+      formConfig.steps.forEach((step, index) => {
+        const stepClass = index === 0 ? 'form-step-content active' : 'form-step-content';
+        html += `<div class="${stepClass}" data-step="${index}">`;
+        html += this.generateFieldsHTML(step.fields);
+        html += '</div>';
+      });
+    }
+    
+    html += '</div>';
+    return html;
+  }
+
+  // Generate Steps HTML
+  generateStepsHTML(steps) {
+    let html = '<div class="form-steps">';
+    steps.forEach((step, index) => {
+      const stepClass = index === 0 ? 'form-step active' : 'form-step';
+      html += `
+        <div class="${stepClass}" data-step="${index}">
+          <div class="form-step-number">${index + 1}</div>
+          <span>${step.title}</span>
+        </div>
+      `;
+    });
+    html += '</div>';
+    return html;
+  }
+
+  // Generate Fields HTML
+  generateFieldsHTML(fields) {
+    let html = '';
+    
+    fields.forEach(field => {
+      html += this.generateFieldHTML(field);
+    });
+    
+    return html;
+  }
+
+  // Generate Individual Field HTML
+  generateFieldHTML(field) {
+    const fieldId = `field-${this.generateId()}`;
+    const required = field.required ? 'required' : '';
+    const requiredClass = field.required ? 'required' : '';
+    
+    let html = '';
+    
+    // Handle form rows
+    if (field.type === 'row') {
+      const colClass = field.columns ? `form-row ${field.columns}-cols` : 'form-row';
+      html += `<div class="${colClass}">`;
+      field.fields.forEach(subField => {
+        html += this.generateFieldHTML(subField);
+      });
+      html += '</div>';
+      return html;
+    }
+    
+    html += `<div class="form-group">`;
+    
+    // Label
+    if (field.label) {
+      html += `<label class="form-label ${requiredClass}" for="${fieldId}">${field.label}</label>`;
+    }
+    
+    // Field based on type
+    switch (field.type) {
+      case 'text':
+      case 'email':
+      case 'password':
+      case 'number':
+      case 'tel':
+      case 'url':
+        html += `<input 
+          type="${field.type}" 
+          id="${fieldId}" 
+          name="${field.name}" 
+          class="form-input" 
+          placeholder="${field.placeholder || ''}" 
+          ${required}
+          ${field.min ? `min="${field.min}"` : ''}
+          ${field.max ? `max="${field.max}"` : ''}
+          ${field.pattern ? `pattern="${field.pattern}"` : ''}
+          value="${field.defaultValue || ''}"
+        >`;
+        break;
+        
+      case 'textarea':
+        html += `<textarea 
+          id="${fieldId}" 
+          name="${field.name}" 
+          class="form-input smoothalert-textarea" 
+          placeholder="${field.placeholder || ''}" 
+          rows="${field.rows || 4}"
+          ${required}
+        >${field.defaultValue || ''}</textarea>`;
+        break;
+        
+      case 'select':
+        html += `<select id="${fieldId}" name="${field.name}" class="form-input form-select" ${required}>`;
+        if (field.placeholder) {
+          html += `<option value="">${field.placeholder}</option>`;
+        }
+        field.options.forEach(option => {
+          const selected = option.value === field.defaultValue ? 'selected' : '';
+          html += `<option value="${option.value}" ${selected}>${option.label}</option>`;
+        });
+        html += '</select>';
+        break;
+        
+      case 'checkbox':
+        html += `<label class="form-checkbox-group">
+          <input type="checkbox" id="${fieldId}" name="${field.name}" class="form-checkbox" value="${field.value || '1'}" ${field.checked ? 'checked' : ''}>
+          <span>${field.text || field.label}</span>
+        </label>`;
+        break;
+        
+      case 'radio':
+        html += '<div class="form-radio-group">';
+        field.options.forEach(option => {
+          const optionId = `${fieldId}-${option.value}`;
+          const checked = option.value === field.defaultValue ? 'checked' : '';
+          html += `<label class="form-radio-item">
+            <input type="radio" id="${optionId}" name="${field.name}" class="form-radio" value="${option.value}" ${checked}>
+            <span>${option.label}</span>
+          </label>`;
+        });
+        html += '</div>';
+        break;
+        
+      case 'file':
+        html += `<label class="form-file-upload">
+          <input type="file" id="${fieldId}" name="${field.name}" class="form-file-input" ${field.multiple ? 'multiple' : ''} ${field.accept ? `accept="${field.accept}"` : ''}>
+          <div class="form-file-label">
+            <i class="fas fa-cloud-upload-alt form-file-icon"></i>
+            <span>${field.placeholder || 'Choose files...'}</span>
+          </div>
+        </label>`;
+        break;
+        
+      case 'range':
+        html += `<input 
+          type="range" 
+          id="${fieldId}" 
+          name="${field.name}" 
+          class="form-range" 
+          min="${field.min || 0}" 
+          max="${field.max || 100}" 
+          value="${field.defaultValue || field.min || 0}"
+          step="${field.step || 1}"
+        >
+        <div class="range-value" id="${fieldId}-value">${field.defaultValue || field.min || 0}</div>`;
+        break;
+        
+      case 'toggle':
+        html += `<div class="form-toggle-group">
+          <span>${field.text || field.label}</span>
+          <label class="form-toggle">
+            <input type="checkbox" id="${fieldId}" name="${field.name}" ${field.checked ? 'checked' : ''}>
+            <span class="form-toggle-slider"></span>
+          </label>
+        </div>`;
+        break;
+        
+      case 'date':
+      case 'time':
+      case 'datetime-local':
+        html += `<input 
+          type="${field.type}" 
+          id="${fieldId}" 
+          name="${field.name}" 
+          class="form-input" 
+          ${required}
+          value="${field.defaultValue || ''}"
+        >`;
+        break;
+    }
+    
+    // Validation message placeholder
+    html += `<div class="form-validation" id="${fieldId}-validation"></div>`;
+    
+    html += '</div>';
+    return html;
+  }
+
+  // Initialize Form Elements
+  initializeFormElements(formConfig, formId, config) {
+    const form = document.getElementById(formId);
+    if (!form) return;
+    
+    // Initialize range sliders
+    form.querySelectorAll('.form-range').forEach(range => {
+      const valueDisplay = document.getElementById(range.id + '-value');
+      if (valueDisplay) {
+        range.addEventListener('input', (e) => {
+          valueDisplay.textContent = e.target.value;
+        });
+      }
+    });
+    
+    // Initialize file uploads
+    form.querySelectorAll('.form-file-input').forEach(input => {
+      input.addEventListener('change', (e) => {
+        const label = e.target.nextElementSibling.querySelector('span');
+        const files = e.target.files;
+        if (files.length > 0) {
+          const fileText = files.length === 1 ? files[0].name : `${files.length} files selected`;
+          label.textContent = fileText;
+        }
+      });
+    });
+    
+    // Real-time validation
+    if (config.validation) {
+      form.querySelectorAll('.form-input, .form-checkbox, .form-radio').forEach(input => {
+        input.addEventListener('blur', () => {
+          this.validateField(input);
+        });
+        
+        input.addEventListener('input', () => {
+          this.clearFieldValidation(input);
+        });
+      });
+    }
+  }
+
+  // Validate Form
+  validateForm(formConfig, formId, enableValidation) {
+    if (!enableValidation) return true;
+    
+    const form = document.getElementById(formId);
+    if (!form) return false;
+    
+    let isValid = true;
+    const fields = this.getAllFields(formConfig);
+    
+    fields.forEach(field => {
+      const element = form.querySelector(`[name="${field.name}"]`);
+      if (element && !this.validateField(element, field)) {
+        isValid = false;
+      }
+    });
+    
+    return isValid;
+  }
+
+  // Validate Individual Field
+  validateField(element, fieldConfig = null) {
+    const validationContainer = document.getElementById(element.id + '-validation');
+    if (!validationContainer) return true;
+    
+    // Clear previous validation
+    validationContainer.innerHTML = '';
+    element.classList.remove('error', 'success');
+    
+    let isValid = true;
+    let errorMessage = '';
+    
+    // Required validation
+    if (element.hasAttribute('required') && !element.value.trim()) {
+      isValid = false;
+      errorMessage = 'This field is required';
+    }
+    
+    // Type-specific validation
+    if (isValid && element.value) {
+      switch (element.type) {
+        case 'email':
+          const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+          if (!emailRegex.test(element.value)) {
+            isValid = false;
+            errorMessage = 'Please enter a valid email address';
+          }
+          break;
+          
+        case 'url':
+          try {
+            new URL(element.value);
+          } catch {
+            isValid = false;
+            errorMessage = 'Please enter a valid URL';
+          }
+          break;
+          
+        case 'number':
+          if (element.hasAttribute('min') && parseFloat(element.value) < parseFloat(element.min)) {
+            isValid = false;
+            errorMessage = `Value must be at least ${element.min}`;
+          }
+          if (element.hasAttribute('max') && parseFloat(element.value) > parseFloat(element.max)) {
+            isValid = false;
+            errorMessage = `Value must be at most ${element.max}`;
+          }
+          break;
+      }
+      
+      // Pattern validation
+      if (isValid && element.hasAttribute('pattern')) {
+        const regex = new RegExp(element.pattern);
+        if (!regex.test(element.value)) {
+          isValid = false;
+          errorMessage = 'Please match the required format';
+        }
+      }
+    }
+    
+    // Display validation result
+    if (!isValid) {
+      element.classList.add('error');
+      validationContainer.innerHTML = `<div class="form-error"><i class="fas fa-exclamation-circle"></i> ${errorMessage}</div>`;
+    } else if (element.value) {
+      element.classList.add('success');
+      validationContainer.innerHTML = `<div class="form-success"><i class="fas fa-check-circle"></i> Valid</div>`;
+    }
+    
+    return isValid;
+  }
+
+  // Clear Field Validation
+  clearFieldValidation(element) {
+    const validationContainer = document.getElementById(element.id + '-validation');
+    if (validationContainer) {
+      validationContainer.innerHTML = '';
+    }
+    element.classList.remove('error', 'success');
+  }
+
+  // Collect Form Data
+  collectFormData(formConfig, formId) {
+    const form = document.getElementById(formId);
+    if (!form) return {};
+    
+    const data = {};
+    const fields = this.getAllFields(formConfig);
+    
+    fields.forEach(field => {
+      const elements = form.querySelectorAll(`[name="${field.name}"]`);
+      
+      if (elements.length === 0) return;
+      
+      switch (field.type) {
+        case 'checkbox':
+          if (elements.length === 1) {
+            data[field.name] = elements[0].checked;
+          } else {
+            data[field.name] = Array.from(elements).filter(el => el.checked).map(el => el.value);
+          }
+          break;
+          
+        case 'radio':
+          const checked = Array.from(elements).find(el => el.checked);
+          data[field.name] = checked ? checked.value : null;
+          break;
+          
+        case 'file':
+          data[field.name] = elements[0].files;
+          break;
+          
+        case 'range':
+        case 'number':
+          data[field.name] = parseFloat(elements[0].value);
+          break;
+          
+        case 'toggle':
+          data[field.name] = elements[0].checked;
+          break;
+          
+        default:
+          data[field.name] = elements[0].value;
+      }
+    });
+    
+    return data;
+  }
+
+  // Get All Fields (flattened)
+  getAllFields(formConfig) {
+    let fields = [];
+    
+    if (formConfig.fields) {
+      fields = this.flattenFields(formConfig.fields);
+    } else if (formConfig.steps) {
+      formConfig.steps.forEach(step => {
+        fields = fields.concat(this.flattenFields(step.fields));
+      });
+    }
+    
+    return fields;
+  }
+
+  // Flatten Fields (handle rows)
+  flattenFields(fields) {
+    let flattened = [];
+    
+    fields.forEach(field => {
+      if (field.type === 'row') {
+        flattened = flattened.concat(this.flattenFields(field.fields));
+      } else {
+        flattened.push(field);
+      }
+    });
+    
+    return flattened;
+  }
 }
 
 // Initialize and expose global API
@@ -1667,7 +2554,8 @@ document.addEventListener('DOMContentLoaded', () => {
     rainbow: (message, options) => smoothAlertEngine.rainbow(message, options),
     imageViewer: (imageUrl, options) => smoothAlertEngine.imageViewer(imageUrl, options),
     soundWave: (message, options) => smoothAlertEngine.soundWave(message, options),
-    errorShake: (message, options) => smoothAlertEngine.errorShake(message, options)
+    errorShake: (message, options) => smoothAlertEngine.errorShake(message, options),
+    form: (formConfig, options) => smoothAlertEngine.form(formConfig, options)
   };
 
   // Override native alert

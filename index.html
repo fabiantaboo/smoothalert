@@ -319,6 +319,15 @@
                 <p class="demo-description">Pure confetti effects without modal</p>
                 <button class="btn" style="background: linear-gradient(45deg, #ff6b6b, #4ecdc4, #45b7d1, #f9ca24);" onclick="justConfetti()">Rain Confetti!</button>
             </div>
+
+            <div class="demo-card">
+                <div class="demo-icon" style="color: #9b59b6;">
+                    <i class="fas fa-edit"></i>
+                </div>
+                <h3 class="demo-title">📝 Advanced Forms</h3>
+                <p class="demo-description">Comprehensive form builder with validation</p>
+                <button class="btn" style="background: #9b59b6;" onclick="showAdvancedForm()">Create Form</button>
+            </div>
         </div>
 
         <div class="features">
@@ -378,6 +387,13 @@
                     Neon, rainbow, shake animations
                 </div>
             </div>
+            <div class="feature">
+                <i class="fas fa-edit feature-icon"></i>
+                <div>
+                    <strong>Advanced Forms</strong><br>
+                    Complete form builder with validation
+                </div>
+            </div>
         </div>
 
         <div class="code-section">
@@ -424,6 +440,48 @@ SmoothAlert.imageViewer('image.jpg', {
 SmoothAlert.confetti({
     particleCount: 100,
     duration: 3000
+});
+
+// 📝 Advanced Forms
+const formConfig = {
+    fields: [
+        {
+            type: 'text',
+            name: 'name',
+            label: 'Name',
+            required: true
+        },
+        {
+            type: 'email',
+            name: 'email',
+            label: 'Email',
+            required: true
+        },
+        {
+            type: 'select',
+            name: 'category',
+            label: 'Category',
+            options: [
+                { value: 'general', label: 'General' },
+                { value: 'support', label: 'Support' }
+            ]
+        },
+        {
+            type: 'textarea',
+            name: 'message',
+            label: 'Message',
+            rows: 4
+        }
+    ]
+};
+
+SmoothAlert.form(formConfig, {
+    title: 'Contact Form',
+    validation: true
+}).then(result => {
+    if (result.success) {
+        console.log('Form data:', result.data);
+    }
 });</code></pre>
         </div>
     </div>
@@ -597,6 +655,366 @@ SmoothAlert.confetti({
                 message: '🎉 Confetti rain activated!',
                 duration: 2000,
                 position: 'top-center'
+            });
+        }
+
+        function showAdvancedForm() {
+            // Show a menu to choose form type
+            SmoothAlert.show({
+                type: 'info',
+                title: '📝 Choose Form Type',
+                message: 'Select which type of form you want to see:',
+                buttons: [
+                    {
+                        label: '👤 User Registration',
+                        style: 'primary',
+                        action: () => showUserRegistrationForm()
+                    },
+                    {
+                        label: '🏢 Contact Form',
+                        style: 'success',
+                        action: () => showContactForm()
+                    },
+                    {
+                        label: '⚙️ Settings Form',
+                        style: 'warning',
+                        action: () => showSettingsForm()
+                    },
+                    {
+                        label: '📋 Survey Form',
+                        style: 'info',
+                        action: () => showSurveyForm()
+                    }
+                ]
+            });
+        }
+
+        function showUserRegistrationForm() {
+            const formConfig = {
+                fields: [
+                    {
+                        type: 'row',
+                        fields: [
+                            {
+                                type: 'text',
+                                name: 'firstName',
+                                label: 'First Name',
+                                placeholder: 'Enter your first name',
+                                required: true
+                            },
+                            {
+                                type: 'text',
+                                name: 'lastName',
+                                label: 'Last Name',
+                                placeholder: 'Enter your last name',
+                                required: true
+                            }
+                        ]
+                    },
+                    {
+                        type: 'email',
+                        name: 'email',
+                        label: 'Email Address',
+                        placeholder: 'your.email@example.com',
+                        required: true
+                    },
+                    {
+                        type: 'password',
+                        name: 'password',
+                        label: 'Password',
+                        placeholder: 'Create a strong password',
+                        required: true
+                    },
+                    {
+                        type: 'tel',
+                        name: 'phone',
+                        label: 'Phone Number',
+                        placeholder: '+1 (555) 123-4567'
+                    },
+                    {
+                        type: 'date',
+                        name: 'birthDate',
+                        label: 'Date of Birth'
+                    },
+                    {
+                        type: 'select',
+                        name: 'country',
+                        label: 'Country',
+                        placeholder: 'Select your country',
+                        required: true,
+                        options: [
+                            { value: 'us', label: 'United States' },
+                            { value: 'uk', label: 'United Kingdom' },
+                            { value: 'de', label: 'Germany' },
+                            { value: 'fr', label: 'France' },
+                            { value: 'ca', label: 'Canada' },
+                            { value: 'au', label: 'Australia' }
+                        ]
+                    },
+                    {
+                        type: 'checkbox',
+                        name: 'newsletter',
+                        text: 'Subscribe to our newsletter',
+                        checked: true
+                    },
+                    {
+                        type: 'checkbox',
+                        name: 'terms',
+                        text: 'I agree to the Terms and Conditions',
+                        required: true
+                    }
+                ]
+            };
+
+            SmoothAlert.form(formConfig, {
+                title: '👤 User Registration',
+                submitText: 'Create Account',
+                validation: true
+            }).then(result => {
+                if (result.success) {
+                    SmoothAlert.celebration(`Welcome ${result.data.firstName}! Your account has been created successfully! 🎉`);
+                    console.log('Registration data:', result.data);
+                }
+            });
+        }
+
+        function showContactForm() {
+            const formConfig = {
+                fields: [
+                    {
+                        type: 'text',
+                        name: 'name',
+                        label: 'Full Name',
+                        placeholder: 'Your full name',
+                        required: true
+                    },
+                    {
+                        type: 'row',
+                        fields: [
+                            {
+                                type: 'email',
+                                name: 'email',
+                                label: 'Email',
+                                placeholder: 'your@email.com',
+                                required: true
+                            },
+                            {
+                                type: 'tel',
+                                name: 'phone',
+                                label: 'Phone',
+                                placeholder: 'Your phone number'
+                            }
+                        ]
+                    },
+                    {
+                        type: 'select',
+                        name: 'subject',
+                        label: 'Subject',
+                        placeholder: 'Select a subject',
+                        required: true,
+                        options: [
+                            { value: 'general', label: 'General Inquiry' },
+                            { value: 'support', label: 'Technical Support' },
+                            { value: 'sales', label: 'Sales Question' },
+                            { value: 'feedback', label: 'Feedback' },
+                            { value: 'other', label: 'Other' }
+                        ]
+                    },
+                    {
+                        type: 'radio',
+                        name: 'priority',
+                        label: 'Priority Level',
+                        defaultValue: 'normal',
+                        options: [
+                            { value: 'low', label: '🟢 Low - General question' },
+                            { value: 'normal', label: '🟡 Normal - Standard inquiry' },
+                            { value: 'high', label: '🟠 High - Urgent matter' },
+                            { value: 'critical', label: '🔴 Critical - Emergency' }
+                        ]
+                    },
+                    {
+                        type: 'textarea',
+                        name: 'message',
+                        label: 'Message',
+                        placeholder: 'Please describe your inquiry in detail...',
+                        rows: 5,
+                        required: true
+                    },
+                    {
+                        type: 'file',
+                        name: 'attachments',
+                        label: 'Attachments',
+                        placeholder: 'Choose files to attach...',
+                        multiple: true,
+                        accept: '.pdf,.doc,.docx,.txt,.jpg,.png'
+                    }
+                ]
+            };
+
+            SmoothAlert.form(formConfig, {
+                title: '🏢 Contact Us',
+                submitText: 'Send Message',
+                validation: true
+            }).then(result => {
+                if (result.success) {
+                    SmoothAlert.success('Your message has been sent successfully! We\'ll get back to you soon.');
+                    console.log('Contact form data:', result.data);
+                }
+            });
+        }
+
+        function showSettingsForm() {
+            const formConfig = {
+                fields: [
+                    {
+                        type: 'toggle',
+                        name: 'notifications',
+                        text: 'Enable Notifications',
+                        checked: true
+                    },
+                    {
+                        type: 'toggle',
+                        name: 'darkMode',
+                        text: 'Dark Mode',
+                        checked: false
+                    },
+                    {
+                        type: 'toggle',
+                        name: 'autoSave',
+                        text: 'Auto-save Documents',
+                        checked: true
+                    },
+                    {
+                        type: 'range',
+                        name: 'volume',
+                        label: 'Volume Level',
+                        min: 0,
+                        max: 100,
+                        defaultValue: 75,
+                        step: 5
+                    },
+                    {
+                        type: 'range',
+                        name: 'fontSize',
+                        label: 'Font Size',
+                        min: 12,
+                        max: 24,
+                        defaultValue: 16,
+                        step: 1
+                    },
+                    {
+                        type: 'select',
+                        name: 'language',
+                        label: 'Language',
+                        defaultValue: 'en',
+                        options: [
+                            { value: 'en', label: '🇺🇸 English' },
+                            { value: 'de', label: '🇩🇪 German' },
+                            { value: 'fr', label: '🇫🇷 French' },
+                            { value: 'es', label: '🇪🇸 Spanish' },
+                            { value: 'it', label: '🇮🇹 Italian' },
+                            { value: 'ja', label: '🇯🇵 Japanese' }
+                        ]
+                    },
+                    {
+                        type: 'select',
+                        name: 'timezone',
+                        label: 'Timezone',
+                        placeholder: 'Select your timezone',
+                        options: [
+                            { value: 'utc-8', label: 'Pacific Time (UTC-8)' },
+                            { value: 'utc-5', label: 'Eastern Time (UTC-5)' },
+                            { value: 'utc+0', label: 'UTC (UTC+0)' },
+                            { value: 'utc+1', label: 'Central European (UTC+1)' },
+                            { value: 'utc+9', label: 'Japan Standard (UTC+9)' }
+                        ]
+                    }
+                ]
+            };
+
+            SmoothAlert.form(formConfig, {
+                title: '⚙️ Settings',
+                submitText: 'Save Settings',
+                validation: false
+            }).then(result => {
+                if (result.success) {
+                    SmoothAlert.success('Settings saved successfully! 💾');
+                    console.log('Settings data:', result.data);
+                }
+            });
+        }
+
+        function showSurveyForm() {
+            const formConfig = {
+                fields: [
+                    {
+                        type: 'radio',
+                        name: 'satisfaction',
+                        label: 'Overall Satisfaction',
+                        required: true,
+                        options: [
+                            { value: '5', label: '⭐⭐⭐⭐⭐ Excellent' },
+                            { value: '4', label: '⭐⭐⭐⭐ Good' },
+                            { value: '3', label: '⭐⭐⭐ Average' },
+                            { value: '2', label: '⭐⭐ Poor' },
+                            { value: '1', label: '⭐ Very Poor' }
+                        ]
+                    },
+                    {
+                        type: 'checkbox',
+                        name: 'features',
+                        label: 'Which features do you use most? (Select all that apply)',
+                        options: [
+                            { value: 'alerts', label: 'Alert Messages' },
+                            { value: 'forms', label: 'Form Builder' },
+                            { value: 'confetti', label: 'Confetti Effects' },
+                            { value: 'themes', label: 'Custom Themes' },
+                            { value: 'animations', label: 'Animations' }
+                        ]
+                    },
+                    {
+                        type: 'range',
+                        name: 'easeOfUse',
+                        label: 'Ease of Use (1-10)',
+                        min: 1,
+                        max: 10,
+                        defaultValue: 8,
+                        step: 1
+                    },
+                    {
+                        type: 'textarea',
+                        name: 'suggestions',
+                        label: 'Suggestions for Improvement',
+                        placeholder: 'What would you like to see improved or added?',
+                        rows: 4
+                    },
+                    {
+                        type: 'radio',
+                        name: 'recommend',
+                        label: 'Would you recommend SmoothAlert to others?',
+                        required: true,
+                        options: [
+                            { value: 'yes', label: '👍 Yes, definitely!' },
+                            { value: 'maybe', label: '🤔 Maybe' },
+                            { value: 'no', label: '👎 No, not really' }
+                        ]
+                    }
+                ]
+            };
+
+            SmoothAlert.form(formConfig, {
+                title: '📋 User Feedback Survey',
+                submitText: 'Submit Survey',
+                validation: true
+            }).then(result => {
+                if (result.success) {
+                    if (result.data.satisfaction >= '4') {
+                        SmoothAlert.celebration('Thank you for your excellent feedback! 🎉');
+                    } else {
+                        SmoothAlert.success('Thank you for your feedback! We\'ll work on improvements.');
+                    }
+                    console.log('Survey data:', result.data);
+                }
             });
         }
     </script>
